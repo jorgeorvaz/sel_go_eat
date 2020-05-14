@@ -1,0 +1,7 @@
+{
+  "name": "goeat",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
