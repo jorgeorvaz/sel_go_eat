@@ -15,7 +15,16 @@
     <ion-input type="password" [(ngModel)]="usuario.password" name="password" required="required"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-checkbox></ion-checkbox><ion-label>¿Eres un restaurante?</ion-label>
+  <ion-checkbox (click)="addValue($event)" [(ngModel)]="checked"></ion-checkbox><ion-label>¿Eres un restaurante?</ion-label>
   </ion-item>
   <ion-button (click)="registrar()">Registrate</ion-button>
+  <ion-item *ngIf="checked">
+    <ion-label position="floating">CIF</ion-label>
+    <ion-input></ion-input>
+    </ion-item>
+      <ion-item *ngIf="checked">
+        <ion-label position="floating">Aforo restaurente</ion-label>
+        <ion-input></ion-input>
+        </ion-item>
+  <ion-button>Registrate</ion-button>
 </ion-content>

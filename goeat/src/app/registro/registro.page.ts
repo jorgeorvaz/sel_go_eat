@@ -11,6 +11,7 @@ export class RegistroPage implements OnInit {
   toastCtrl: any;
   usuario: Usuario=new Usuario();
 
+  checked : boolean = false;
   constructor() { }
 
   ngOnInit() {
@@ -35,4 +36,7 @@ export class RegistroPage implements OnInit {
     throw new Error("Method not implemented.");
   }
 
+  addValue(e): void {
+    var isChecked = e.currentTarget.checked;
+  }
 }
