@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-
+  checked : boolean = false;
   constructor() { }
 
   ngOnInit() {
   }
-
+  addValue(e): void {
+    var isChecked = e.currentTarget.checked;
+  }
 }
