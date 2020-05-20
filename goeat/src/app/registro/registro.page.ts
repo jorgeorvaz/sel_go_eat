@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from './usuario.model';
+import { AuthService } from '../auth.service';
+
+
+import { Router } from  "@angular/router";
 
 @Component({
   selector: 'app-registro',
@@ -7,36 +11,21 @@ import { Usuario } from './usuario.model';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-  firebaseService: any;
-  toastCtrl: any;
   usuario: Usuario=new Usuario();
-
   checked : boolean = false;
-  constructor() { }
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
 
-  registrar(){
-    console.log(this.usuario);
-    this.firebaseService.add_usuario(this.usuario)
-    .then( res => {
-      console.log(res);
-      let toast = this.toastCtrl.create({
-        message: 'User was created successfully',
-        duration: 3000
-      });
-      toast.present();
-      this.resetFields();
-    }, err => {
-      console.log(err)
-    })
-  }
-  resetFields() {
-    throw new Error("Method not implemented.");
-  }
-
   addValue(e): void {
     var isChecked = e.currentTarget.checked;
+  }
+
+  registrar(){
+    console.log(this.usuario);
+    this.authService.crear_usuario(this.usuario);
+
   }
 }
