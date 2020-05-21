@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(public afDB: AngularFirestore) { }
+  constructor(public afDB: AngularFireDatabase) { }
 
-  public crear_usuario(value){
-    console.log(value);
-    return this.afDB.collection('users').add({
-      email: value.email,
-      password: value.password
-    });
+  public crear_usuario(usuario){
+    console.log(usuario);
+    this.afDB.database.ref().push(usuario);
   }
  
 }

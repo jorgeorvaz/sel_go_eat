@@ -14,7 +14,7 @@ export class RegistroPage implements OnInit {
   usuario: Usuario=new Usuario();
   checked : boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }
