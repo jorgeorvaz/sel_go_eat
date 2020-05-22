@@ -5,19 +5,22 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  usuario: Usuario=new Usuario();
-  checked : boolean = false;
+  validations_form: FormGroup;
+  errorMessage: string = '';
+  private navCtrl: NavController;
+  usuario: Usuario = new Usuario();
+  checked: boolean = false;
   ionicForm: FormGroup;
   isSubmitted = false;
 
-  constructor(private authService: AuthService, public formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, public formBuilder: FormBuilder, public router: Router) { }
 
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
@@ -30,17 +33,20 @@ export class LoginPage implements OnInit {
     return this.ionicForm.controls;
   }
 
-  iniciar(){
+  iniciar() {
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
       console.log('Inserta los datos bien!')
       return false;
     } else {
-      console.log(this.ionicForm.value)
-      console.log(this.usuario);
-      this.authService.iniciar_usuario(this.usuario);
-      
+      this.authService.loginUser(this.usuario)
+        .then(res => {
+          console.log(res);
+          this.errorMessage = "";
+          window.location.href = '/home';
+        }, err => {
+          this.errorMessage = err.message;
+        })
     }
   }
-
 }
