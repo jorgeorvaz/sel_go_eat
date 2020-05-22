@@ -43,6 +43,7 @@ export class RegistroPage implements OnInit {
       console.log(this.ionicForm.value)
       console.log(this.usuario);
     this.authService.crear_usuario(this.usuario);
+    
     }
 
   }
