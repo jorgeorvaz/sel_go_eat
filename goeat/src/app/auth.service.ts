@@ -11,7 +11,7 @@ export class AuthService {
 
   public crear_usuario(usuario){
     console.log(usuario);
-    this.afDB.database.ref().push(usuario);
+    this.afDB.database.ref('usuarios').push(usuario);
   }
  
 }
