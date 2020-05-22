@@ -1,29 +1,35 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Registro usuario</ion-title>
+    <ion-title>Ionic Forms</ion-title>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content>
-  <ion-item>
-    <ion-label position="floating">Email</ion-label>
-    <ion-input [(ngModel)]="usuario.email" name="email" required="required"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" [(ngModel)]="usuario.password" name="password" required="required"></ion-input>
-  </ion-item>
-  <ion-item>
-  <ion-checkbox (click)="addValue($event)" [(ngModel)]="checked"></ion-checkbox><ion-label>¿Eres un restaurante?</ion-label>
-  </ion-item>
-  <ion-item *ngIf="checked">
-    <ion-label position="floating">CIF</ion-label>
-    <ion-input></ion-input>
+  <form [formGroup]="ionicForm" (ngSubmit)="registrar()" novalidate>
+ 
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName="email" [(ngModel)]="usuario.email" type="email"></ion-input>
     </ion-item>
-      <ion-item *ngIf="checked">
-        <ion-label position="floating">Aforo restaurente</ion-label>
-        <ion-input></ion-input>
-        </ion-item>
-  <ion-button (click)="registrar()">Registrate</ion-button>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+      Tienes que introducir un email
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.pattern">
+      Tienes que introducir un email valido
+    </span>
+ 
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input maxlength="10" formControlName="password" [(ngModel)]="usuario.password" type="text" required></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required">
+      Tienes que introducir una contraseña
+    </span>
+ 
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" expand="block">Submit</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>
