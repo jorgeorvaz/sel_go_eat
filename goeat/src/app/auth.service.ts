@@ -31,6 +31,20 @@ export class AuthService {
     })
   }
 
+  logoutUser() {
+    return new Promise((resolve, reject) => {
+      if (this.afAuth.auth.currentUser) {
+        this.afAuth.auth.signOut()
+          .then(() => {
+            console.log("LOG Out");
+            resolve();
+          }).catch((error) => {
+            reject();
+          });
+      }
+    })
+  }
+
   userDetails() {
     return this.afAuth.user
   }
