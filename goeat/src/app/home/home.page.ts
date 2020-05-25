@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
+import { Usuario } from '../registro/usuario.model';
 declare var google: any;
 
 @Component({
@@ -12,6 +13,9 @@ declare var google: any;
 export class HomePage implements OnInit {
   userEmail: string;
   map: any;
+  usuario: Usuario = new Usuario();
+  public isError = false;
+  public isLogged = false;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   infoWindows: any = [];
@@ -105,6 +109,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    
     this.authService.userDetails().subscribe(res => {
       console.log('res', res);
       if (res !== null) {
@@ -114,7 +119,7 @@ export class HomePage implements OnInit {
       }
     }, err => {
       console.log('err', err);
-    })
+    });
   }
 
 }

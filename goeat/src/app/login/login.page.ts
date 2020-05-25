@@ -14,7 +14,6 @@ import { NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   validations_form: FormGroup;
   errorMessage: string = '';
-  private navCtrl: NavController;
   usuario: Usuario = new Usuario();
   checked: boolean = false;
   ionicForm: FormGroup;

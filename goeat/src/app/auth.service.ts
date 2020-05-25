@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Usuario } from './registro/usuario.model';
+import { isNullOrUndefined } from "util";
 @Injectable({
   providedIn: 'root'
 })
