@@ -10,7 +10,8 @@ import { LoginPage } from './login.page';
 
 @NgModule({
   imports: [
-    CommonModule, ReactiveFormsModule,
+    CommonModule, 
+    ReactiveFormsModule,
     FormsModule,
     IonicModule,
     LoginPageRoutingModule

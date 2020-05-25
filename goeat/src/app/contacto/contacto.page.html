@@ -37,12 +37,15 @@
 
 <ion-content>
 
-    <form [formGroup]="ionicForm" (ngSubmit)="enviar_mensaje()" novalidate> 
+    <form [formGroup]="myGroup" (ngSubmit)="enviar_mensaje()" novalidate> 
  
     <ion-item lines="full">
       <ion-label position="floating">Nombre</ion-label>
       <ion-input maxlength="10" formControlName="nombre" [(ngModel)] = "contacto.nombre" type="nombre" required></ion-input>
     </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.nombre.errors?.required">
+      Tienes que introducir una contraseña
+    </span>
 
    <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>

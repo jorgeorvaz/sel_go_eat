@@ -13,13 +13,21 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { firebaseConfig } from '../environments/firebaseConfig';
-
+import { FormsModule } from '@angular/forms'  
+import { ReactiveFormsModule} from '@angular/forms' 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, 
-    AngularFireModule, AngularFireDatabaseModule, AngularFireAuthModule,
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule,
+    AppRoutingModule, 
+    AngularFireModule, 
+    AngularFireDatabaseModule, 
+    AngularFireAuthModule,
     AngularFireModule.initializeApp(firebaseConfig)],
   providers: [
     StatusBar,
