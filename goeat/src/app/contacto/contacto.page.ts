@@ -40,7 +40,16 @@ export class ContactoPage implements OnInit {
   }
 
   enviar_mensaje(){
-    console.log(this.mensaje.mensaje)
+
+    this.isSubmitted = true;
+    if (!this.ionicForm.valid) {
+      console.log('Inserta los datos bien!')
+      return false;
+    }else {
+      console.log(this.mensaje.mensaje)
+    }
+    
+    
   }
 
 
