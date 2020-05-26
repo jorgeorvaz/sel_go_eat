@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {AuthGuard} from './guards/auth.guard';
+import {GuardGuard} from './guard.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),  canActivate: [GuardGuard]
   },
   {
     path: '',
@@ -20,10 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
-    path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)},
+    path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),  canActivate: [GuardGuard]},
   {
     path: 'contacto',
-    loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule)
+    loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule),  canActivate: [GuardGuard]
   },
 
 ];

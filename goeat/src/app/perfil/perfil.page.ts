@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { NavController } from '@ionic/angular';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-perfil',
@@ -14,6 +16,7 @@ export class PerfilPage implements OnInit {
   constructor(private navCtrl: NavController, private authService: AuthService) { }
 
   ngOnInit() {
+    /*
     this.authService.userDetails().subscribe(res => {
       console.log('res', res);
       if (res !== null) {
@@ -23,7 +26,7 @@ export class PerfilPage implements OnInit {
       }
     }, err => {
       console.log('err', err);
-    });
+    });*/
   }
 
 }

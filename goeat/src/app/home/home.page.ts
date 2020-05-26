@@ -3,6 +3,9 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Usuario } from '../registro/usuario.model';
+import {Router} from '@angular/router';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 declare var google: any;
 
 @Component({
@@ -60,6 +63,7 @@ export class HomePage implements OnInit {
 
   addMarkersToMap(markers) {
     for (let marker of markers) {
+      console.log(marker);
       let position = new google.maps.LatLng(marker.latitude, marker.longitude);
       let mapMarker = new google.maps.Marker({
         position: position,
@@ -69,8 +73,9 @@ export class HomePage implements OnInit {
       });
 
       mapMarker.setMap(this.map);
-      this.addInfoWindowToMarker(mapMarker);
+      
     }
+    this.addInfoWindowToMarker(markers);
   }
 
   addInfoWindowToMarker(marker) {
@@ -106,6 +111,7 @@ export class HomePage implements OnInit {
     }
     this.map = new google.maps.Map(this.mapRef.nativeElement, options);
     this.addMarkersToMap(this.markers);
+
   }
 
   ngOnInit() {
@@ -131,6 +137,9 @@ export class HomePage implements OnInit {
       .catch(error => {
         console.log(error);
       })
+  }
+  usuarioFirebase(){
+    
   }
 
 }
