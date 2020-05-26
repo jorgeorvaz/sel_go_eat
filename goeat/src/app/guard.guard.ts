@@ -23,37 +23,39 @@ export class GuardGuard implements CanActivate, CanActivateChild, CanDeactivate<
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           resolve(true);
-          this.authService.userDetails()
-          .subscribe(res => {
-            console.log('res', res);
-            if (res !== null) {
-              this.userEmail = res.email;
-            } else {
-              this.navCtrl.navigateBack('');
-            }
-          }, err => {
-            console.log('err', err);
-          });;
-          
-        } else {
+        } 
+        else {
           console.log('User is not logged in');
           this.router.navigate(['/login']);
           resolve(false);
-        }
+        } 
       });
     });
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+      return new Promise((resolve, reject) => {
+        firebase.auth().onAuthStateChanged((user: firebase.User) => {
+          if (user) {
+            console.log('User is already logged in');
+            this.router.navigate(['/home']);
+            resolve(false);
+          } 
+          else {
+            resolve(true);
+          } 
+        });
+      });
   }
   canDeactivate(
     component: unknown,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+      return new Promise((resolve, reject) => {
+        
+      });
   }
   canLoad(
     route: Route,
