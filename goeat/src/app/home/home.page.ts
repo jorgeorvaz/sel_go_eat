@@ -60,6 +60,7 @@ export class HomePage implements OnInit {
 
   addMarkersToMap(markers) {
     for (let marker of markers) {
+      console.log(marker);
       let position = new google.maps.LatLng(marker.latitude, marker.longitude);
       let mapMarker = new google.maps.Marker({
         position: position,
@@ -69,7 +70,8 @@ export class HomePage implements OnInit {
       });
 
       mapMarker.setMap(this.map);
-      this.addInfoWindowToMarker(mapMarker);
+      // this.addInfoWindowToMarker(mapMarker);
+      
     }
   }
 
