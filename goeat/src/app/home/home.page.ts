@@ -73,9 +73,9 @@ export class HomePage implements OnInit {
       });
 
       mapMarker.setMap(this.map);
+      // this.addInfoWindowToMarker(mapMarker);
       
     }
-    this.addInfoWindowToMarker(markers);
   }
 
   addInfoWindowToMarker(marker) {
