@@ -6,6 +6,7 @@ import { Usuario } from '../registro/usuario.model';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google: any;
 
 @Component({
@@ -22,40 +23,21 @@ export class HomePage implements OnInit {
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   infoWindows: any = [];
+  locationWatchStarted:boolean;
+  locationSubscription:any;
+
   markers: any = [
     {
       title: "El Pimiento Verde",
       latitude: "40.424036",
       longitude: "-3.681425"
-    },
-    {
-      title: "Goiko Grill",
-      latitude: "40.423256",
-      longitude: "-3.682873"
-    },
-    {
-      title: "El Sur",
-      latitude: "40.411358",
-      longitude: "-3.699440"
-    },
-    {
-      title: "LA VIOLETA",
-      latitude: "40.436970",
-      longitude: "-3.708283"
-    },
-    {
-      title: "La Castela",
-      latitude: "40.420536",
-      longitude: "-3.676703"
-    },
-    {
-      title: "Masa Naomi Restaurante Japonés",
-      latitude: "40.452826",
-      longitude: "-3.700594"
     }
   ];
 
-  constructor(private navCtrl: NavController, private authService: AuthService) { }
+  constructor(
+    private navCtrl: NavController, 
+    private authService: AuthService, 
+    private geolocation: Geolocation) { }
 
   ionViewDidEnter() {
     this.showMap();
@@ -111,6 +93,7 @@ export class HomePage implements OnInit {
     }
     this.map = new google.maps.Map(this.mapRef.nativeElement, options);
     this.addMarkersToMap(this.markers);
+    this.setCurrentLocation();
 
   }
 
@@ -139,7 +122,32 @@ export class HomePage implements OnInit {
       })
   }
   usuarioFirebase(){
-    
   }
 
+
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.add_my_marker(position.coords.latitude, position.coords.longitude);
+        console.log(position.coords.latitude, position.coords.longitude);
+      });
+    }
+
+  }
+
+  add_my_marker(lat, long) {
+    
+      let position = new google.maps.LatLng(lat, long);
+      let mapMarker = new google.maps.Marker({
+        position: position,
+        title: 'my position',
+        latitude: lat,
+        longitude: long
+      });
+
+      mapMarker.setMap(this.map);
+      
+      
+    }
+  
 }
