@@ -60,11 +60,15 @@ export class HomePage implements OnInit {
 
   addInfoWindowToMarker(marker) {
     var infowindow = new google.maps.InfoWindow({
-      content:"Hello World!"
+      content:
+        '<h2>'+marker.name +'</h2>'+
+        '<h5>ID: '+marker.placeId+'</h5>'+
+        '<h5>VALORACIÓN: '+marker.rating+'</h5>'
     });
     
     google.maps.event.addListener(marker, 'click', function() {
       infowindow.open(this.map,marker);
+      
     });
   }
 
@@ -119,7 +123,6 @@ export class HomePage implements OnInit {
   addMap(lat, long) {
 
     let latLng = new google.maps.LatLng(lat, long);
-
     let mapOptions = {
       center: latLng,
       zoom: 15,
@@ -130,6 +133,7 @@ export class HomePage implements OnInit {
 
     this.getRestaurants(latLng).then((results: Array<any>) => {
       this.places = results;
+      console.log(this.places);
       for (let i = 0; i < results.length; i++) {
         this.createMarker(results[i]);
       }
@@ -139,7 +143,7 @@ export class HomePage implements OnInit {
 
   }
   addMarker() {
-    let image = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+    let image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
@@ -179,8 +183,13 @@ export class HomePage implements OnInit {
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: place.geometry.location
+      position: place.geometry.location,
+      placeId: place.place_id,
+      rating: place.rating,
+      opening_hours: place.opening_hours,
+      name: place.name
     });
     this.addInfoWindowToMarker(marker);
   }
+
 }
