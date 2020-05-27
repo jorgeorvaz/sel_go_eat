@@ -139,11 +139,12 @@ export class HomePage implements OnInit {
 
   }
   addMarker() {
-
+    let image = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: this.map.getCenter()
+      position: this.map.getCenter(),
+      icon:image
     });
 
     let content = "<p>This is your current position !</p>";
