@@ -3,10 +3,11 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Usuario } from '../registro/usuario.model';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation, GeolocationOptions, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
+
 declare var google: any;
 
 @Component({
@@ -15,32 +16,29 @@ declare var google: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  options: GeolocationOptions;
+  currentPos: Geoposition;
   userEmail: string;
   map: any;
+  places: Array<any>;
   usuario: Usuario = new Usuario();
   public isError = false;
   public isLogged = false;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
+  @ViewChild('map') mapElement: ElementRef;
 
   infoWindows: any = [];
-  locationWatchStarted:boolean;
-  locationSubscription:any;
+  locationWatchStarted: boolean;
+  locationSubscription: any;
 
-  markers: any = [
-    {
-      title: "El Pimiento Verde",
-      latitude: "40.424036",
-      longitude: "-3.681425"
-    }
-  ];
 
   constructor(
-    private navCtrl: NavController, 
-    private authService: AuthService, 
+    private navCtrl: NavController,
+    private authService: AuthService,
     private geolocation: Geolocation) { }
 
   ionViewDidEnter() {
-    this.showMap();
+    this.getUserPosition();
   }
 
   addMarkersToMap(markers) {
@@ -55,27 +53,19 @@ export class HomePage implements OnInit {
       });
 
       mapMarker.setMap(this.map);
-      // this.addInfoWindowToMarker(mapMarker);
       
+
     }
   }
 
   addInfoWindowToMarker(marker) {
-    let infoWindowContent = '<div id="content">' +
-      '<h2 id="firstHeading" class"firstHeading">' + marker.title + '</h2>' +
-      '<p> Latitude: ' + marker.latitude + '</p>' +
-      '<p> Longitude: ' + marker.longitude + '</p>' +
-      '</div>';
-
-    let infoWindow = new google.maps.infoWindow({
-      content: infoWindowContent
+    var infowindow = new google.maps.InfoWindow({
+      content:"Hello World!"
     });
-
-    marker.addListener('click', () => {
-      this.closeAllInfoWindows();
-      infoWindow.open(this.map, marker);
+    
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(this.map,marker);
     });
-    this.infoWindows.push(infoWindow);
   }
 
   closeAllInfoWindows() {
@@ -84,21 +74,9 @@ export class HomePage implements OnInit {
     }
   }
 
-  showMap() {
-    const location = new google.maps.LatLng(40.4165001, -3.7025599);
-    const options = {
-      center: location,
-      zoom: 15,
-      disableDefaultUI: false
-    }
-    this.map = new google.maps.Map(this.mapRef.nativeElement, options);
-    this.addMarkersToMap(this.markers);
-    this.setCurrentLocation();
-
-  }
 
   ngOnInit() {
-    
+
     this.authService.userDetails().subscribe(res => {
       if (res !== null) {
         this.userEmail = res.email;
@@ -121,33 +99,88 @@ export class HomePage implements OnInit {
         console.log(error);
       })
   }
-  usuarioFirebase(){
+
+  getUserPosition() {
+    this.options = {
+      enableHighAccuracy: true
+    };
+
+    this.geolocation.getCurrentPosition(this.options).then((pos: Geoposition) => {
+
+      this.currentPos = pos;
+      console.log(pos);
+      this.addMap(pos.coords.latitude, pos.coords.longitude);
+
+    }, (err: PositionError) => {
+      console.log("error : " + err.message);
+    });
   }
 
+  addMap(lat, long) {
 
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.add_my_marker(position.coords.latitude, position.coords.longitude);
-        console.log(position.coords.latitude, position.coords.longitude);
-      });
+    let latLng = new google.maps.LatLng(lat, long);
+
+    let mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     }
+
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+    this.getRestaurants(latLng).then((results: Array<any>) => {
+      this.places = results;
+      for (let i = 0; i < results.length; i++) {
+        this.createMarker(results[i]);
+      }
+    }, (status) => console.log(status));
+
+    this.addMarker();
 
   }
+  addMarker() {
+    let image = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+    let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: this.map.getCenter(),
+      icon:image
+    });
 
-  add_my_marker(lat, long) {
-    
-      let position = new google.maps.LatLng(lat, long);
-      let mapMarker = new google.maps.Marker({
-        position: position,
-        title: 'my position',
-        latitude: lat,
-        longitude: long
+    let content = "<p>This is your current position !</p>";
+    let infoWindow = new google.maps.InfoWindow({
+      content: content
+    });
+
+    google.maps.event.addListener(marker, 'click', () => {
+      infoWindow.open(this.map, marker);
+    });
+  }
+
+  getRestaurants(latLng) {
+    var service = new google.maps.places.PlacesService(this.map);
+    let request = {
+      location: latLng,
+      radius: 400,
+      types: ["cafe"]
+    };
+    return new Promise((resolve, reject) => {
+      service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          resolve(results);
+        } else {
+          reject(status);
+        }
+
       });
-
-      mapMarker.setMap(this.map);
-      
-      
-    }
-  
+    });
+  }
+  createMarker(place) {
+    let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: place.geometry.location
+    });
+    this.addInfoWindowToMarker(marker);
+  }
 }
