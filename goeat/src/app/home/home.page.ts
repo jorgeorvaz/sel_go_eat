@@ -53,27 +53,19 @@ export class HomePage implements OnInit {
       });
 
       mapMarker.setMap(this.map);
-      // this.addInfoWindowToMarker(mapMarker);
+      
 
     }
   }
 
   addInfoWindowToMarker(marker) {
-    let infoWindowContent = '<div id="content">' +
-      '<h2 id="firstHeading" class"firstHeading">' + marker.title + '</h2>' +
-      '<p> Latitude: ' + marker.latitude + '</p>' +
-      '<p> Longitude: ' + marker.longitude + '</p>' +
-      '</div>';
-
-    let infoWindow = new google.maps.infoWindow({
-      content: infoWindowContent
+    var infowindow = new google.maps.InfoWindow({
+      content:"Hello World!"
     });
-
-    marker.addListener('click', () => {
-      this.closeAllInfoWindows();
-      infoWindow.open(this.map, marker);
+    
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(this.map,marker);
     });
-    this.infoWindows.push(infoWindow);
   }
 
   closeAllInfoWindows() {
@@ -188,5 +180,6 @@ export class HomePage implements OnInit {
       animation: google.maps.Animation.DROP,
       position: place.geometry.location
     });
+    this.addInfoWindowToMarker(marker);
   }
 }
