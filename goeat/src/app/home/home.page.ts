@@ -161,8 +161,8 @@ export class HomePage implements OnInit {
     var service = new google.maps.places.PlacesService(this.map);
     let request = {
       location: latLng,
-      radius: 8047,
-      types: ["restaurant"]
+      radius: 400,
+      types: ["cafe"]
     };
     return new Promise((resolve, reject) => {
       service.nearbySearch(request, function (results, status) {
