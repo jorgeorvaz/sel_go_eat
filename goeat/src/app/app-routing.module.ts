@@ -24,7 +24,8 @@ const routes: Routes = [
   {
     path: 'contacto',
     loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule),  canActivate: [GuardGuard]
-  },
+  }
+
 
 ];
 

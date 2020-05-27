@@ -13,3 +13,19 @@ ion-button{
 ion-title{
     margin-left: 25%;
 }
+
+.login_menu{
+    --ion-item-color: var(--ion-color-secondary);
+  
+  }
+  #boton_logout{
+    margin-top: 5%;
+  
+  }
+  
+.active{
+    --ion-text-color: var(--ion-color-primary);
+    ion-icon{
+      --ion-text-color-rgb: var(--ion-color-primary);
+    }
+}
