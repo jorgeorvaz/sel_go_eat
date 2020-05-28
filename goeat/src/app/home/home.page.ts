@@ -17,6 +17,7 @@ declare var google: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  count_position:any = 0;
   options: GeolocationOptions;
   currentPos: Geoposition;
   userEmail: string;
@@ -74,14 +75,15 @@ export class HomePage implements OnInit {
       enableHighAccuracy: true
     };
 
-    this.geolocation.getCurrentPosition(this.options).then((pos: Geoposition) => {
-
-      this.currentPos = pos;
-      console.log(pos);
-      this.addMap(pos.coords.latitude, pos.coords.longitude);
-
-    }, (err: PositionError) => {
-      console.log("error : " + err.message);
+    let watch = this.geolocation.watchPosition(this.options);
+    watch.subscribe((pos: Geoposition) => {
+      var updatedLatitude = pos.coords.latitude;
+      var updatedLongitude = pos.coords.longitude;
+      if(this.count_position++ == 0 || (updatedLatitude != this.currentPos.coords.latitude && updatedLongitude != this.currentPos.coords.longitude)){
+        this.currentPos = pos;
+        console.log(pos);
+        this.addMap(pos.coords.latitude, pos.coords.longitude);
+      }
     });
   }
 
@@ -131,7 +133,7 @@ export class HomePage implements OnInit {
 
     let request = {
       location: latLng,
-      radius: 1400,
+      radius: 400,
       types: ["cafe"]
     };
     return new Promise((resolve, reject) => {
