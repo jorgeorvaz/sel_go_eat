@@ -66,11 +66,11 @@
     </ion-toolbar>
   </ion-header>
 
-<ion-content>
+<ion-content class = "background">
 
     <form [formGroup]="ionicForm" (ngSubmit)="enviar_mensaje()" novalidate> 
  
-    <ion-item class="inputs" lines="full">
+    <ion-item class="inputs" lines="full" >
       <ion-label position="floating">Nombre</ion-label>
       <ion-input maxlength="10" formControlName="nombre" [(ngModel)] = "contacto.nombre" type="nombre" required></ion-input>
     </ion-item>
