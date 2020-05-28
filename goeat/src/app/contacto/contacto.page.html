@@ -5,7 +5,7 @@
       <ion-title>Go Eat Now</ion-title>
     </ion-toolbar>
   </ion-header>
-
+  <!--Menu-->
   <ion-content>
     <ion-list>
       <!--Conexion de inicio de sesion-->
@@ -51,7 +51,7 @@
     </ion-list>
   </ion-content>
 </ion-menu>
-
+<!--_______________________________________________________MENU____________________________________________________________________________________________________-->
 <ion-page class="ion-page" id="main-content">
   <ion-header>
     <ion-toolbar>
@@ -70,7 +70,7 @@
 
     <form [formGroup]="ionicForm" (ngSubmit)="enviar_mensaje()" novalidate> 
  
-    <ion-item lines="full">
+    <ion-item class="inputs" lines="full">
       <ion-label position="floating">Nombre</ion-label>
       <ion-input maxlength="10" formControlName="nombre" [(ngModel)] = "contacto.nombre" type="nombre" required></ion-input>
     </ion-item>
@@ -78,7 +78,7 @@
       Tienes que introducir una contraseña
     </span>
 
-   <ion-item lines="full">
+   <ion-item class="inputs" lines="full">
       <ion-label position="floating">Email</ion-label>
       <ion-input formControlName="email" [(ngModel)] = "contacto.email" type="email"></ion-input>
     </ion-item>
@@ -90,14 +90,14 @@
     </span>
     
 
-    <ion-item>
+    <ion-item class="inputs">
       <ion-label>Mensaje:</ion-label>
       <ion-textarea rows="6" cols="20" formControlName="mensaje" [(ngModel)] = "contacto.mensaje" placeholder="Escribe tu mensaje aqui..."></ion-textarea>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" expand="block">Enviar mensaje</ion-button>
+        <ion-button class="botonform" type="submit" expand="block">Enviar mensaje</ion-button>
       </ion-col>
     </ion-row>
     
