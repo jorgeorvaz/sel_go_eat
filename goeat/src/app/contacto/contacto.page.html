@@ -2,29 +2,46 @@
 <ion-menu content-id="main-content">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Contacto</ion-title>
+      <ion-title>Go Eat Now</ion-title>
     </ion-toolbar>
   </ion-header>
-
+  <!--Menu-->
   <ion-content>
     <ion-list>
+      <!--Conexion de inicio de sesion-->
+      <ion-item class="login_menu">
+        <ion-col>
+          <ion-row id="img_user">
+            <ion-avatar item-start>
+              <img src="./assets/imgs/perfil.png">
+            </ion-avatar>
+          </ion-row>
+        <ion-row>
+          
+            Bienvenido: {{userEmail}}
+          
+        </ion-row>
+        <ion-button id="boton_logout" color="danger" name="logout" (click)="logout()">Desconectar</ion-button>
+      </ion-col>
+      </ion-item>
+  <!--___________________________________________________________________________________________________________________________________________________________-->
       <ion-list-header>
         Menu
       </ion-list-header>
       <ion-menu-toggle auto-hide="false">
-        <ion-item button>
+        <ion-item button routerLink = "/home">
           <ion-icon slot="start" name='home'></ion-icon>
           <ion-label>
             Inicio
           </ion-label>
         </ion-item>
-        <ion-item button>
-          <ion-icon slot="start" name='heart-outline'></ion-icon>
+        <ion-item button routerLink = "/perfil">
+          <ion-icon slot="start" name='person-outline'></ion-icon>
           <ion-label>
-            Restaurantes favoritos
+            Mi perfil
           </ion-label>
         </ion-item>
-        <ion-item button routerLink = "/Contacto">
+        <ion-item button routerLink = "/contacto" class="active">
           <ion-icon slot="start" name='call-outline'></ion-icon>
           <ion-label>
             Contacto
@@ -34,12 +51,26 @@
     </ion-list>
   </ion-content>
 </ion-menu>
+<!--_______________________________________________________MENU____________________________________________________________________________________________________-->
+<ion-page class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-toggle>
+          <ion-button>
+            <ion-icon slot="icon-only" name="menu"></ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+      <ion-title>Logo_app</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content>
 
     <form [formGroup]="ionicForm" (ngSubmit)="enviar_mensaje()" novalidate> 
  
-    <ion-item lines="full">
+    <ion-item class="inputs" lines="full">
       <ion-label position="floating">Nombre</ion-label>
       <ion-input maxlength="10" formControlName="nombre" [(ngModel)] = "contacto.nombre" type="nombre" required></ion-input>
     </ion-item>
@@ -47,7 +78,7 @@
       Tienes que introducir una contraseña
     </span>
 
-   <ion-item lines="full">
+   <ion-item class="inputs" lines="full">
       <ion-label position="floating">Email</ion-label>
       <ion-input formControlName="email" [(ngModel)] = "contacto.email" type="email"></ion-input>
     </ion-item>
@@ -59,20 +90,21 @@
     </span>
     
 
-    <ion-item>
+    <ion-item class="inputs">
       <ion-label>Mensaje:</ion-label>
       <ion-textarea rows="6" cols="20" formControlName="mensaje" [(ngModel)] = "contacto.mensaje" placeholder="Escribe tu mensaje aqui..."></ion-textarea>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" expand="block">Enviar mensaje</ion-button>
+        <ion-button class="botonform" type="submit" expand="block">Enviar mensaje</ion-button>
       </ion-col>
     </ion-row>
     
   </form>
 
   </ion-content>
+</ion-page>
 </ion-app>
 
 
