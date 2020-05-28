@@ -7,7 +7,9 @@ import { Router } from "@angular/router";
 import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { Mensaje } from './contacto.model';
+import 'firebase/auth';
 
+declare const toast;
 
 @Component({
   selector: 'app-contacto',
@@ -20,8 +22,14 @@ export class ContactoPage implements OnInit {
   contacto: Mensaje = new Mensaje();
   ionicForm: FormGroup;
   isSubmitted = false;
+  usuario: Usuario = new Usuario();
+  userEmail: string;
+ 
+  
 
-  constructor(private authService: AuthService, public formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, public formBuilder: FormBuilder, private navCtrl: NavController, public toastController: ToastController) { }
+
+  
 
   mensaje: Mensaje = new Mensaje;
 
@@ -30,27 +38,34 @@ export class ContactoPage implements OnInit {
       nombre : ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       mensaje: ['', Validators.required]
-    })
 
+    })
+    this.authService.userDetails().subscribe(res => {
+      if (res !== null) {
+        this.userEmail = res.email;
+        console.log(this.userEmail);
+      } else {
+        this.navCtrl.navigateBack('');
+      }
+    }, err => {
+      console.log('err', err);
+    });
 
   }
 
   get errorControl() {
     return this.ionicForm.controls;
   }
-
-  enviar_mensaje(){
-
-    this.isSubmitted = true;
-    if (!this.ionicForm.valid) {
-      console.log('Inserta los datos bien!')
-      return false;
-    }else {
-      console.log(this.mensaje.mensaje)
-    }
-    
-    
+  
+  async mensajeToast() {
+    const toast = await this.toastController.create({
+      message: 'Tu mensaje ha sido enviado con éxito',
+      duration: 2000
+    });
+    toast.present();
+  }
+   
   }
 
 
-}
+

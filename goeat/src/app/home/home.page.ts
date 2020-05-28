@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Geolocation, GeolocationOptions, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
+import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 
 declare var google: any;
 
@@ -16,6 +17,7 @@ declare var google: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  count_position:any = 0;
   options: GeolocationOptions;
   currentPos: Geoposition;
   userEmail: string;
@@ -41,42 +43,6 @@ export class HomePage implements OnInit {
     this.getUserPosition();
   }
 
-  addMarkersToMap(markers) {
-    for (let marker of markers) {
-      console.log(marker);
-      let position = new google.maps.LatLng(marker.latitude, marker.longitude);
-      let mapMarker = new google.maps.Marker({
-        position: position,
-        title: marker.title,
-        latitude: marker.latitude,
-        longitude: marker.longitude
-      });
-
-      mapMarker.setMap(this.map);
-      
-
-    }
-  }
-
-  addInfoWindowToMarker(marker) {
-    var infowindow = new google.maps.InfoWindow({
-      content:
-        '<h2>'+marker.name +'</h2>'+
-        '<h5>ID: '+marker.placeId+'</h5>'+
-        '<h5>VALORACIÓN: '+marker.rating+'</h5>'
-    });
-    
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(this.map,marker);
-      
-    });
-  }
-
-  closeAllInfoWindows() {
-    for (let window of this.infoWindows) {
-      window.close();
-    }
-  }
 
 
   ngOnInit() {
@@ -109,14 +75,15 @@ export class HomePage implements OnInit {
       enableHighAccuracy: true
     };
 
-    this.geolocation.getCurrentPosition(this.options).then((pos: Geoposition) => {
-
-      this.currentPos = pos;
-      console.log(pos);
-      this.addMap(pos.coords.latitude, pos.coords.longitude);
-
-    }, (err: PositionError) => {
-      console.log("error : " + err.message);
+    let watch = this.geolocation.watchPosition(this.options);
+    watch.subscribe((pos: Geoposition) => {
+      var updatedLatitude = pos.coords.latitude;
+      var updatedLongitude = pos.coords.longitude;
+      if(this.count_position++ == 0 || (updatedLatitude != this.currentPos.coords.latitude && updatedLongitude != this.currentPos.coords.longitude)){
+        this.currentPos = pos;
+        console.log(pos);
+        this.addMap(pos.coords.latitude, pos.coords.longitude);
+      }
     });
   }
 
@@ -134,8 +101,8 @@ export class HomePage implements OnInit {
     this.getRestaurants(latLng).then((results: Array<any>) => {
       this.places = results;
       console.log(this.places);
-      for (let i = 0; i < results.length; i++) {
-        this.createMarker(results[i]);
+      for (let i = 0; i < this.places.length; i++) {
+        this.createMarker(this.places[i]);
       }
     }, (status) => console.log(status));
 
@@ -148,7 +115,7 @@ export class HomePage implements OnInit {
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: this.map.getCenter(),
-      icon:image
+      icon: image
     });
 
     let content = "<p>This is your current position !</p>";
@@ -163,6 +130,7 @@ export class HomePage implements OnInit {
 
   getRestaurants(latLng) {
     var service = new google.maps.places.PlacesService(this.map);
+
     let request = {
       location: latLng,
       radius: 400,
@@ -177,19 +145,59 @@ export class HomePage implements OnInit {
         }
 
       });
+      
     });
   }
+  addInfoWindowToMarker(marker) {
+    var infowindow = new google.maps.InfoWindow({
+      content:
+
+        '<h2>' + marker.name + '</h2>' +
+        '<h5>' + marker.vicinity + '</h5>' +
+        '<h5>VALORACIÓN: ' + marker.rating + '⭐</h5>' +
+        '<h5>TLF: ' + JSON.stringify(marker.phone) + '</h5>' +
+        '<h5>URL: ' + marker.url + '</h5>' + 
+        '<h5>Horario: ' + marker.hours + '</h5>'
+
+
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+      infowindow.open(this.map, marker);
+
+    });
+  }
+
   createMarker(place) {
+    
+    var service1 = new google.maps.places.PlacesService(this.map);
+    service1.getDetails({placeId: place.place_id}, function (place, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log(place);
+        return place;
+      } else {
+        return status;
+      }
+    
+
+    });
+    
+    
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: place.geometry.location,
       placeId: place.place_id,
       rating: place.rating,
-      opening_hours: place.opening_hours,
-      name: place.name
+      name: place.name,
+      vicinity: place.vicinity,
+      phone: place.formatted_phone_number,
+
     });
+
     this.addInfoWindowToMarker(marker);
+    
+    
   }
 
 }

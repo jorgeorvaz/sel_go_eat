@@ -1,5 +1,4 @@
-<ion-app>
-  <ion-menu content-id="main-content">
+<ion-menu content-id="main-content">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Go eat now!</ion-title>
@@ -49,7 +48,6 @@
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
-   
   </ion-menu>
   <ion-page class="ion-page" id="main-content">
     <ion-header>
@@ -64,51 +62,24 @@
         <ion-title>Logo_app</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">  
+    <ion-content>  
   
       <ion-searchbar></ion-searchbar>
       <div #map id="map"></div>
       <div style="width : 100% ;height: 50%">
-        <ion-list>
-        <ion-item *ngFor="let place of places">
-            <p></p>
+        <ion-list *ngFor="let place of places; let i = index">
+        <ion-item *ngIf="i < 3">
+          <ion-card >
+            <ion-card-header>
+                <ion-card-title>{{place.name}}</ion-card-title>
+              </ion-card-header>
+            <ion-card-content>
+               Valoracion: {{place.rating}}/5 - 
+               Ocupacion: Desconocida
+            </ion-card-content>
+          </ion-card>
         </ion-item>
         </ion-list>
       </div>
-      
-      <ion-chip>
-        <ion-avatar>
-          <img src="https://image.flaticon.com/icons/svg/45/45332.svg">
-        </ion-avatar>
-        <ion-label>Restaurantes</ion-label>
-        <ion-icon name="close-circle"></ion-icon>
-      </ion-chip>
-
-      <ion-card>
-        <ion-card-header>
-            <ion-card-title>Restaurante italia</ion-card-title>
-          </ion-card-header>
-        <ion-card-content>
-           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        </ion-card-content>
-      </ion-card>
-      <ion-card>
-        <ion-card-header>
-            <ion-card-title>Pendejos Wey</ion-card-title>
-          </ion-card-header>
-        <ion-card-content>
-           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        </ion-card-content>
-      </ion-card>
-      <ion-card>
-        <ion-card-header>
-            <ion-card-title>Los pollitos</ion-card-title>
-          </ion-card-header>
-        <ion-card-content>
-           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        </ion-card-content>
-      </ion-card>
     </ion-content>
   </ion-page>
-</ion-app>
-<ion-menu-controller></ion-menu-controller>
