@@ -39,11 +39,10 @@ export class HomePage implements OnInit {
     private authService: AuthService,
     private geolocation: Geolocation) { }
 
+
   ionViewDidEnter() {
-    this.getUserPosition();
+    this.setCurrentLocation();
   }
-
-
 
   ngOnInit() {
 
@@ -82,17 +81,27 @@ export class HomePage implements OnInit {
       if(this.count_position++ == 0 || (updatedLatitude != this.currentPos.coords.latitude && updatedLongitude != this.currentPos.coords.longitude)){
         this.currentPos = pos;
         console.log(pos);
-        this.addMap(pos.coords.latitude, pos.coords.longitude);
+        this.addMarker();
       }
     });
   }
 
-  addMap(lat, long) {
+  public setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.addMap(position.coords.latitude, position.coords.longitude);
+        console.log(position.coords.latitude, position.coords.longitude);
+      });
+    }
+    this.getUserPosition();
 
+  }
+
+  addMap(lat, long) {
     let latLng = new google.maps.LatLng(lat, long);
     let mapOptions = {
       center: latLng,
-      zoom: 15,
+      zoom: 17,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
 
@@ -105,10 +114,8 @@ export class HomePage implements OnInit {
         this.createMarker(this.places[i]);
       }
     }, (status) => console.log(status));
-
-    this.addMarker();
-
   }
+
   addMarker() {
     let image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
     let marker = new google.maps.Marker({
@@ -169,7 +176,6 @@ export class HomePage implements OnInit {
   }
 
   createMarker(place) {
-    
     var service1 = new google.maps.places.PlacesService(this.map);
     service1.getDetails({placeId: place.place_id}, function (place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -178,11 +184,7 @@ export class HomePage implements OnInit {
       } else {
         return status;
       }
-    
-
     });
-    
-    
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
@@ -192,12 +194,7 @@ export class HomePage implements OnInit {
       name: place.name,
       vicinity: place.vicinity,
       phone: place.formatted_phone_number,
-
     });
-
     this.addInfoWindowToMarker(marker);
-    
-    
   }
-
 }
