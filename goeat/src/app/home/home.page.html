@@ -26,21 +26,21 @@
         <ion-list-header>
           Menu
         </ion-list-header>
-        <ion-menu-toggle auto-hide="false">
-          <ion-item button routerLink = "/home" class="active">
-            <ion-icon slot="start" name='home'></ion-icon>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink = "/home" class="active">
+            <ion-icon  name='home'></ion-icon>
             <ion-label>
               Inicio
             </ion-label>
           </ion-item>
-          <ion-item button routerLink = "/perfil">
-            <ion-icon slot="start" name='person-outline'></ion-icon>
+          <ion-item routerLink="/perfil">
+            <ion-icon  name='person-outline'></ion-icon>
             <ion-label>
               Mi perfil
             </ion-label>
           </ion-item>
-          <ion-item button routerLink = "/contacto">
-            <ion-icon slot="start" name='call-outline'></ion-icon>
+          <ion-item routerLink = "/contacto">
+            <ion-icon  name='call-outline'></ion-icon>
             <ion-label>
               Contacto
             </ion-label>
@@ -59,27 +59,61 @@
             </ion-button>
           </ion-menu-toggle>
         </ion-buttons>
-        <ion-title>Logo_app</ion-title>
+        <ion-title>Go Eat Now</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>  
-  
-      <ion-searchbar></ion-searchbar>
-      <div #map id="map"></div>
-      <div style="width : 100% ;height: 50%">
-        <ion-list *ngFor="let place of places; let i = index">
-        <ion-item *ngIf="i < 3">
-          <ion-card >
-            <ion-card-header>
-                <ion-card-title>{{place.name}}</ion-card-title>
-              </ion-card-header>
-            <ion-card-content>
-               Valoracion: {{place.rating}}/5 - 
-               Ocupacion: Desconocida
-            </ion-card-content>
-          </ion-card>
-        </ion-item>
-        </ion-list>
-      </div>
-    </ion-content>
+    <ion-content>
+  <ion-searchbar placeholder="Pizza Hut" (ionChange)="findPlace($event)" [debounce]="500"></ion-searchbar>
+  <ion-row>
+    <ion-col size="6">
+      <ion-item>
+        <ion-input placeholder="Start" [(ngModel)]="start"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-item>
+        <ion-input placeholder="End" [(ngModel)]="end"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-button expand="full" (click)="getDirections()" [disabled]="start == '' || end == ''">Get directions</ion-button>
+
+  <div *ngIf="direction">
+    <ion-card *ngFor="let route of direction.routes; let i = index;">
+      <ion-card-header>
+        <ion-card-subtitle>{{ route.legs[0].duration.text }}</ion-card-subtitle>
+        <ion-card-title>{{ route.legs[0].distance.text }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button (click)="pickRoute(i)">Pick Route</ion-button>
+        <ion-button (click)="openNativeRoute(route)">Show native Route</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div #map id="map"></div>
+  <ion-button expand="full" (click)="showNearby()">Show Nearby</ion-button>
+
+  <ion-button expand="full" (click)="startTracking()" color="success" *ngIf="!isTracking">
+    <ion-icon name="locate" slot="icon-left"></ion-icon>Start Tracking
+  </ion-button>
+
+  <ion-button expand="full" (click)="stopTracking()" color="warning" *ngIf="isTracking">
+    <ion-icon name="hand" slot="icon-left"></ion-icon>Stop Tracking
+  </ion-button>
+  <ion-list *ngFor="let place of places; let i = index">
+    <ion-item *ngIf="i < 3">
+      <ion-card >
+        <ion-card-header>
+            <ion-card-title>{{place.name}}</ion-card-title>
+          </ion-card-header>
+        <ion-card-content>
+            Valoracion: {{place.rating}}/5 - 
+            Ocupacion: Desconocida
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
   </ion-page>

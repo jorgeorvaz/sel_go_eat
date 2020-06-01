@@ -8,8 +8,11 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Geolocation, GeolocationOptions, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { filter } from 'rxjs/operators';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
-declare var google: any;
 
 @Component({
   selector: 'app-home',
@@ -17,31 +20,37 @@ declare var google: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  count_position:any = 0;
-  options: GeolocationOptions;
-  currentPos: Geoposition;
   userEmail: string;
-  map: any;
-  places: Array<any>;
   usuario: Usuario = new Usuario();
   public isError = false;
   public isLogged = false;
-  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
-  @ViewChild('map') mapElement: ElementRef;
 
-  infoWindows: any = [];
-  locationWatchStarted: boolean;
-  locationSubscription: any;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
+  map: google.maps.Map;
+  home: google.maps.Marker;
+  infowindow = new google.maps.InfoWindow();
+
+  isTracking = false;
+  trackedRoute = [];
+  currentMapTrack = null;
+  positionSubscription: Subscription;
+
+  start = '';
+  end = '';
+  direction: google.maps.DirectionsResult;
 
 
   constructor(
     private navCtrl: NavController,
     private authService: AuthService,
-    private geolocation: Geolocation) { }
+    private geolocation: Geolocation,
+    private plt: Platform,
+    private iab: InAppBrowser) { }
 
 
   ionViewDidEnter() {
-    this.setCurrentLocation();
+    this.loadMap();
+    this.loadUserPosition();
   }
 
   ngOnInit() {
@@ -68,133 +77,207 @@ export class HomePage implements OnInit {
         console.log(error);
       })
   }
+  loadMap() {
+    let latLng = new google.maps.LatLng(51.5167, 9.9167);
 
-  getUserPosition() {
-    this.options = {
-      enableHighAccuracy: true
-    };
-
-    let watch = this.geolocation.watchPosition(this.options);
-    watch.subscribe((pos: Geoposition) => {
-      var updatedLatitude = pos.coords.latitude;
-      var updatedLongitude = pos.coords.longitude;
-      if(this.count_position++ == 0 || (updatedLatitude != this.currentPos.coords.latitude && updatedLongitude != this.currentPos.coords.longitude)){
-        this.currentPos = pos;
-        console.log(pos);
-        this.addMarker();
+    let styles: google.maps.MapTypeStyle[] = [
+      {
+        featureType: 'poi',
+        stylers: [
+          {
+            visibility: 'off'
+          }
+        ]
       }
-    });
-  }
+    ];
 
-  public setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.addMap(position.coords.latitude, position.coords.longitude);
-        console.log(position.coords.latitude, position.coords.longitude);
-      });
-    }
-    this.getUserPosition();
-
-  }
-
-  addMap(lat, long) {
-    let latLng = new google.maps.LatLng(lat, long);
-    let mapOptions = {
+    let mapOptions: google.maps.MapOptions = {
       center: latLng,
-      zoom: 17,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+      zoom: 5,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      styles: styles,
+      mapTypeControl: false
+    };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
-    this.getRestaurants(latLng).then((results: Array<any>) => {
-      this.places = results;
-      console.log(this.places);
-      for (let i = 0; i < this.places.length; i++) {
-        this.createMarker(this.places[i]);
-      }
-    }, (status) => console.log(status));
   }
 
-  addMarker() {
-    let image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: this.map.getCenter(),
-      icon: image
-    });
-
-    let content = "<p>This is your current position !</p>";
-    let infoWindow = new google.maps.InfoWindow({
-      content: content
-    });
-
-    google.maps.event.addListener(marker, 'click', () => {
-      infoWindow.open(this.map, marker);
-    });
-  }
-
-  getRestaurants(latLng) {
-    var service = new google.maps.places.PlacesService(this.map);
-
-    let request = {
-      location: latLng,
-      radius: 400,
-      types: ["cafe"]
-    };
-    return new Promise((resolve, reject) => {
-      service.nearbySearch(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          resolve(results);
-        } else {
-          reject(status);
-        }
-
+  loadUserPosition() {
+    this.plt.ready().then(() => {
+      this.geolocation.getCurrentPosition().then(resp => {
+        const lat = resp.coords.latitude;
+        const lng = resp.coords.longitude;
+        this.focusMap(lat, lng);
+        this.addMarker(
+          lat,
+          lng,
+          '<b>My castle</b><br>Come and get your princess'
+        );
       });
-      
-    });
-  }
-  addInfoWindowToMarker(marker) {
-    var infowindow = new google.maps.InfoWindow({
-      content:
-
-        '<h2>' + marker.name + '</h2>' +
-        '<h5>' + marker.vicinity + '</h5>' +
-        '<h5>VALORACIÓN: ' + marker.rating + '⭐</h5>' +
-        '<h5>TLF: ' + JSON.stringify(marker.phone) + '</h5>' +
-        '<h5>URL: ' + marker.url + '</h5>' + 
-        '<h5>Horario: ' + marker.hours + '</h5>'
-
-
-    });
-
-    google.maps.event.addListener(marker, 'click', function () {
-      infowindow.open(this.map, marker);
-
     });
   }
 
-  createMarker(place) {
-    var service1 = new google.maps.places.PlacesService(this.map);
-    service1.getDetails({placeId: place.place_id}, function (place, status) {
+  focusMap(lat, lng) {
+    let latLng = new google.maps.LatLng(lat, lng);
+    this.map.setCenter(latLng);
+    this.map.setZoom(15);
+  }
+
+  addMarker(lat, lng, info) {
+    let latLng = new google.maps.LatLng(lat, lng);
+
+    this.home = new google.maps.Marker({
+      map: this.map,
+      position: latLng,
+      animation: google.maps.Animation.DROP,
+      icon:
+        'https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png'
+    });
+
+    let infoWindow = new google.maps.InfoWindow({
+      content: info
+    });
+    this.home.addListener('click', () => {
+      infoWindow.open(this.map, this.home);
+    });
+  }
+
+
+  showNearby() {
+    let request: google.maps.places.PlaceSearchRequest = {
+      type: 'restaurant',
+      radius: 1000,
+      location: this.home.getPosition()
+    };
+
+    let service = new google.maps.places.PlacesService(this.map);
+
+    service.nearbySearch(request, (results, status) => {
+      console.log('results: ', results);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log(place);
-        return place;
-      } else {
-        return status;
+        for (let place of results) {
+          this.addNearbyMarker(place);
+        }
       }
     });
+  }
+
+  findPlace(e: CustomEvent) {
+    let request = {
+      query: e.detail.value
+    };
+
+    let service = new google.maps.places.PlacesService(this.map);
+
+    service.textSearch(request, (results, status) => {
+      console.log('results: ', results);
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (let place of results) {
+          this.addNearbyMarker(place);
+        }
+      }
+    });
+  }
+
+  addNearbyMarker(place: google.maps.places.PlaceResult) {
+    const icon = {
+      url: place.icon,
+      scaledSize: new google.maps.Size(25, 25),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(0, 0)
+    };
+
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: place.geometry.location,
-      placeId: place.place_id,
-      rating: place.rating,
-      name: place.name,
-      vicinity: place.vicinity,
-      phone: place.formatted_phone_number,
+      icon: icon
     });
-    this.addInfoWindowToMarker(marker);
+
+    marker.addListener('click', () => {
+      let photo = '';
+
+      if (place.photos.length > 0) {
+        photo = place.photos[0].getUrl({ maxWidth: 100, maxHeight: 100 });
+      }
+      this.infowindow
+        .setContent(`<img src="${photo}" style="width: 100%;max-height: 100px;object-fit: contain;"/><br>
+      <b>${place.name}</b><br>${place.vicinity}`);
+      this.infowindow.open(this.map, marker);
+    });
+  }
+
+  startTracking() {
+    this.isTracking = true;
+    this.trackedRoute = [];
+    if (this.currentMapTrack) {
+      this.currentMapTrack.setMap(null);
+    }
+
+    this.positionSubscription = this.geolocation
+      .watchPosition()
+      .pipe(filter(p => p.coords !== undefined))
+      .subscribe(data => {
+        console.log('new position: ', data);
+        this.trackedRoute.push({
+          lat: data.coords.latitude,
+          lng: data.coords.longitude
+        });
+        this.redrawPath(this.trackedRoute);
+      });
+  }
+
+  redrawPath(path) {
+    console.log('paint: ', path);
+    if (this.currentMapTrack) {
+      this.currentMapTrack.setMap(null);
+    }
+
+    if (path.length > 1) {
+      this.currentMapTrack = new google.maps.Polyline({
+        path: path,
+        geodesic: true,
+        strokeColor: '#ff00ff',
+        strokeOpacity: 1.0,
+        strokeWeight: 3
+      });
+      this.currentMapTrack.setMap(this.map);
+    }
+  }
+
+  stopTracking() {
+    this.isTracking = false;
+    this.positionSubscription.unsubscribe();
+  }
+
+  getDirections() {
+    let directionService = new google.maps.DirectionsService();
+    let request: google.maps.DirectionsRequest = {
+      origin: this.start,
+      destination: this.end,
+      travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: true
+    };
+
+    directionService.route(request, (result, status) => {
+      console.log('result: ', result);
+      this.direction = result;
+    });
+  }
+
+  pickRoute(index) {
+    new google.maps.DirectionsRenderer({
+      map: this.map,
+      directions: this.direction,
+      routeIndex: index
+    });
+  }
+
+  openNativeRoute(route: google.maps.DirectionsRoute) {
+    let start = encodeURIComponent(route.legs[0].start_address);
+    let end = encodeURIComponent(route.legs[0].end_address);
+    let url = `https://www.google.com/maps/dir/?api=1&origin=${start}&destination=${end}`;
+    console.log('URL: ', url);
+    this.iab.create(url, '_system');
   }
 }
