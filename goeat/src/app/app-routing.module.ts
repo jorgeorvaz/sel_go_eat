@@ -3,10 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {GuardGuard} from './guard.guard';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),  canActivate: [GuardGuard]
-  },
+
   {
     path: '',
     redirectTo: 'login',
@@ -20,12 +17,9 @@ const routes: Routes = [
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
-    path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),  canActivate: [GuardGuard]},
-  {
-    path: 'contacto',
-    loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule),  canActivate: [GuardGuard]
+    path: 'inicio',
+    loadChildren: () => import('./inicio/inicio.module').then( m => m.InicioPageModule)
   }
-
 
 ];
 

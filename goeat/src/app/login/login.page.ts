@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
         .then(res => {
           console.log(res);
           this.errorMessage = "";
-          window.location.href = '/home';
+          window.location.href = 'inicio/home';
         }, err => {
           this.errorMessage = err.message;
         })
