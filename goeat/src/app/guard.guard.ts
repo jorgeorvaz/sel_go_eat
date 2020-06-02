@@ -39,7 +39,7 @@ export class GuardGuard implements CanActivate, CanActivateChild, CanDeactivate<
         firebase.auth().onAuthStateChanged((user: firebase.User) => {
           if (user) {
             console.log('User is already logged in');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/inicio/home']);
             resolve(false);
           } 
           else {
