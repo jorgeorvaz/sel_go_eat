@@ -64,7 +64,6 @@ export class HomePage implements OnInit {
     this.authService.userDetails().subscribe(res => {
       if (res !== null) {
         this.userEmail = res.email;
-        console.log(this.userEmail);
       } else {
         this.navCtrl.navigateBack('');
       }
@@ -116,7 +115,7 @@ export class HomePage implements OnInit {
         this.addMarker(
           lat,
           lng,
-          '<b>My castle</b><br>Come and get your princess'
+          'Tu posición'
         );
       });
     });
