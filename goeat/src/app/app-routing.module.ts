@@ -14,7 +14,7 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),  canActivateChild: [GuardGuard]},
   {
     path: 'registro',
-    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule,  canActivateChild: [GuardGuard])
+    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule),  canActivateChild: [GuardGuard]
   },
   {
     path: 'inicio',
