@@ -19,6 +19,7 @@ declare var google: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  
   count_position:any = 0;
   options: GeolocationOptions;
   currentPos: Geoposition;

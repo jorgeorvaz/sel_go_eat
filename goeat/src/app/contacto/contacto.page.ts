@@ -29,10 +29,6 @@ export class ContactoPage implements OnInit {
 
   constructor(private authService: AuthService, public formBuilder: FormBuilder, private navCtrl: NavController, public toastController: ToastController) { }
 
-  
-
-  mensaje: Mensaje = new Mensaje;
-
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
       nombre : ['', Validators.required],
@@ -64,8 +60,14 @@ export class ContactoPage implements OnInit {
     });
     toast.present();
   }
+
+  crear_mensaje(){
+    this.authService.insertar_mensaje(this.contacto);
+  }
    
   }
+
+  
 
 
 
