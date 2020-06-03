@@ -16,7 +16,7 @@ export class PerfilPage implements OnInit {
   constructor(private navCtrl: NavController, private authService: AuthService) { }
 
   ngOnInit() {
-    /*
+    
     this.authService.userDetails().subscribe(res => {
       console.log('res', res);
       if (res !== null) {
@@ -26,7 +26,17 @@ export class PerfilPage implements OnInit {
       }
     }, err => {
       console.log('err', err);
-    });*/
+    });
+  }
+  logout() {
+    this.authService.logoutUser()
+      .then(res => {
+        console.log(res);
+        this.navCtrl.navigateBack('');
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
 }
