@@ -24,3 +24,32 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+ion-content {
+    --background: #c7d3bf;
+    --ion-item-background: transparent;
+}
+
+ion-label {
+    --color: #536d6c!important;
+
+    p {
+        color: #94abbd !important;
+    }
+}
+
+ion-input, ion-textarea {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+    input, textarea {
+        --padding-start: 5px;
+        background: #7c9a92 !important;
+    }
+    --color: #fff !important;
+}
+
+ion-title {
+    color: #fff !important;
+    background: #314448 !important;
+}

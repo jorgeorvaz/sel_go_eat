@@ -24,27 +24,24 @@
     </ion-parrafo>
   </ion-card>
 
-  <ion-item>
+  <ion-item lines="none">
     <ion-input type="email" placeholder="Nuevo email"></ion-input>
   </ion-item>
     
   <ion-row>
     <ion-col>
-      <ion-button class="botonform" expand="block">Cambiar email</ion-button>
+      <ion-button class="ion-padding-horizontal ion-margin-vertical" expand="block">Cambiar email</ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-item>
+  <ion-item lines="none">
     <ion-input type="password" placeholder="Nueva contraseña"></ion-input>
-  </ion-item>
-    
-  <ion-row>
-    <ion-col>
-      <ion-button class="botonform" expand="block">Cambiar contraseña</ion-button>
-    </ion-col>
-  </ion-row>
-  <hr>
-  <ion-button color="danger" (click)="logout()" class="botonform" id="boton_logout">Salir</ion-button>
+  </ion-item> 
+  
+  <ion-button class="ion-padding-horizontal ion-margin-vertical" expand="block">Cambiar contraseña</ion-button>
+   
+
+  <ion-button color="danger" (click)="logout()" class="ion-padding-horizontal ion-margin-vertical">Cerrar sesión</ion-button>
 </ion-content>
 
 

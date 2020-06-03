@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Encuentra tu restaurante
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -36,14 +36,14 @@
   </div>
 
   <div #map id="map"></div>
-  <ion-button expand="full" (click)="toggleMarker()">¿Dónde estas?</ion-button>
-  <ion-button expand="full" (click)="showNearby()">Mostrar bares alrededor</ion-button>
+  <ion-button expand="block" (click)="toggleMarker()">¿Dónde estas?</ion-button>
+  <ion-button expand="block" (click)="showNearby()">Mostrar bares alrededor</ion-button>
 
-  <ion-button expand="full" (click)="startTracking()" color="success" *ngIf="!isTracking">
+  <ion-button expand="block" (click)="startTracking()" color="success" *ngIf="!isTracking">
     <ion-icon name="locate" slot="icon-left"></ion-icon>Start Tracking
   </ion-button>
 
-  <ion-button expand="full" (click)="stopTracking()" color="warning" *ngIf="isTracking">
+  <ion-button expand="block" (click)="stopTracking()" color="warning" *ngIf="isTracking">
     <ion-icon name="hand" slot="icon-left"></ion-icon>Stop Tracking
   </ion-button>
 
