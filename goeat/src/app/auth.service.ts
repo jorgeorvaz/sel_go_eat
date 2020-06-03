@@ -11,6 +11,11 @@ export class AuthService {
 
   constructor(public afDB: AngularFireDatabase, private afAuth: AngularFireAuth) { }
 
+  public insertar_mensaje(mensaje){
+    console.log(mensaje);
+    this.afDB.database.ref('mensajes').push(mensaje);
+  }
+
   public crear_usuario(usuario) {
     return new Promise<any>((resolve, reject) => {
 
