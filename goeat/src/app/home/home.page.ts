@@ -264,21 +264,6 @@ export class HomePage implements OnInit {
     this.positionSubscription.unsubscribe();
   }
 
-  getDirections() {
-    let directionService = new google.maps.DirectionsService();
-    let request = google.maps.DirectionsRequest = {
-      origin: this.start,
-      destination: this.end,
-      travelMode: google.maps.TravelMode.DRIVING,
-      provideRouteAlternatives: true
-    };
-
-    directionService.route(request, (result, status) => {
-      console.log('result: ', result);
-      this.direction = result;
-    });
-  }
-
   pickRoute(index) {
     new google.maps.DirectionsRenderer({
       map: this.map,

@@ -12,13 +12,15 @@ import 'firebase/auth';
 export class PerfilPage implements OnInit {
 
   userEmail: string;
+  correo: string;
+  contrasena: string;
 
   constructor(private navCtrl: NavController, private authService: AuthService) { }
 
   ngOnInit() {
     
     this.authService.userDetails().subscribe(res => {
-      console.log('res', res);
+      console.log('res',res.email);
       if (res !== null) {
         this.userEmail = res.email;
       } else {
@@ -28,6 +30,27 @@ export class PerfilPage implements OnInit {
       console.log('err', err);
     });
   }
+
+  perfil(){
+    console.log(this.correo);
+    var user = firebase.auth().currentUser;
+    user.updateEmail(this.correo).then(function(){
+      alert('email cambiado');
+    }).catch(function(error){
+      console.log(error);
+    });
+  }
+
+  password(){
+    console.log(this.contrasena);
+    var user = firebase.auth().currentUser;
+    user.updatePassword(this.contrasena).then(function(){
+      alert('password cambiada');
+    }).catch(function(error){
+      console.log(error);
+    });
+  }
+
   logout() {
     this.authService.logoutUser()
       .then(res => {
