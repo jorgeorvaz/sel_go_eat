@@ -1,36 +1,50 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <img id="logo" src=".././../assets/logo.png">
-  </ion-toolbar>
-</ion-header>
+
+
+<ion-page class="ion-page" id="main-content"></ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-toggle>
+          <ion-button>
+            <ion-icon slot="icon-only" name="menu"></ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+      <ion-title>GO EAT NOW</ion-title>
+    </ion-toolbar>
+  </ion-header>
 <ion-content padding>
   <ion-card>
     <ion-profile-pic>
-      <img id="imagen_perfil" src="./assets/imgs/perfil.png">
+      <img src="./assets/imgs/perfil.png">
     </ion-profile-pic>
-    <ion-card-header>
-      <ion-card-title>¡Un GoEater apareció!</ion-card-title>
-    </ion-card-header>
+
+    <ion-parrafo>
+      <p>¡Un GoEater apareció!</p>
+    </ion-parrafo>
   </ion-card>
 
-  <ion-item lines="none">
-    <ion-input type="email" placeholder="Nuevo email" [(ngModel)]="correo"></ion-input>
+  <ion-item>
+    <ion-input type="email" placeholder="Nuevo email"></ion-input>
   </ion-item>
     
   <ion-row>
     <ion-col>
-      <ion-button class="ion-padding-horizontal ion-margin-vertical" expand="block" (click)="perfil()">Cambiar email</ion-button>
+      <ion-button class="botonform" expand="block">Cambiar email</ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-item lines="none">
-    <ion-input type="password" placeholder="Nueva contraseña" [(ngModel)]="contrasena"></ion-input>
-  </ion-item> 
-  
-  <ion-button class="ion-padding-horizontal ion-margin-vertical" expand="block" (click)="password()">Cambiar contraseña</ion-button>
-   
-
-  <ion-button color="danger" (click)="logout()" class="ion-padding-horizontal ion-margin-vertical">Cerrar sesión</ion-button>
+  <ion-item>
+    <ion-input type="password" placeholder="Nueva contraseña"></ion-input>
+  </ion-item>
+    
+  <ion-row>
+    <ion-col>
+      <ion-button class="botonform" expand="block">Cambiar contraseña</ion-button>
+    </ion-col>
+  </ion-row>
+  <hr>
+  <ion-button color="danger" (click)="logout()" class="botonform" id="boton_logout">Salir</ion-button>
 </ion-content>
 
 
