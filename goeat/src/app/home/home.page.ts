@@ -169,6 +169,8 @@ export class HomePage implements OnInit {
 
     service.nearbySearch(request, (results, status) => {
       console.log('results: ', results);
+      this.places=results;
+      console.log(this.places);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let place of results) {
           this.addNearbyMarker(place);
