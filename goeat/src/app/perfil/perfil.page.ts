@@ -45,6 +45,7 @@ export class PerfilPage implements OnInit {
   async perfil(){
     console.log(this.correo);
     var user = firebase.auth().currentUser;
+    firebase.auth().useDeviceLanguage();
     user.updateEmail(this.correo).then(async res => {
       let toast = await this.toastCtrl.create({
         duration: 3000,
