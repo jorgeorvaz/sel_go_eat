@@ -31,6 +31,17 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  logout() {
+    this.authService.logoutUser()
+      .then(res => {
+        console.log(res);
+        this.navCtrl.navigateBack('');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
   async perfil(){
     console.log(this.correo);
     var user = firebase.auth().currentUser;
@@ -40,8 +51,13 @@ export class PerfilPage implements OnInit {
         message: 'Su correo se cambio con éxito'
       });
       toast.present();
+      user.sendEmailVerification().then(function() {
+        alert('verifica tu email');
+      }).catch(function(error) {
+        console.log(error);
+      });
     }).catch(function(error){
-      console.log(error);
+      alert(error.message);
     });
   }
 
@@ -59,15 +75,6 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  logout() {
-    this.authService.logoutUser()
-      .then(res => {
-        console.log(res);
-        this.navCtrl.navigateBack('');
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
+  
 
 }
