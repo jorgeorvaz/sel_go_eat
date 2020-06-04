@@ -49,9 +49,13 @@ ion-input, ion-textarea {
     --color: #fff !important;
 }
 
-ion-header, ion-toolbar, ion-title {
-    color: #fff !important;
+ion-toolbar{
     background: #314448 !important;
+    #logo{
+        display:block;
+        margin:auto;
+        width: 45%;
+    }
 }
 
 ion-card-title{
