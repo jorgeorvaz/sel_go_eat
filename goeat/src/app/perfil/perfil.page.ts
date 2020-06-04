@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -15,7 +15,7 @@ export class PerfilPage implements OnInit {
   correo: string;
   contrasena: string;
 
-  constructor(private navCtrl: NavController, private authService: AuthService) { }
+  constructor(private navCtrl: NavController, private authService: AuthService, private toastCtrl: ToastController) { }
 
   ngOnInit() {
     
@@ -31,26 +31,6 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  perfil(){
-    console.log(this.correo);
-    var user = firebase.auth().currentUser;
-    user.updateEmail(this.correo).then(function(){
-      alert('email cambiado');
-    }).catch(function(error){
-      console.log(error);
-    });
-  }
-
-  password(){
-    console.log(this.contrasena);
-    var user = firebase.auth().currentUser;
-    user.updatePassword(this.contrasena).then(function(){
-      alert('password cambiada');
-    }).catch(function(error){
-      console.log(error);
-    });
-  }
-
   logout() {
     this.authService.logoutUser()
       .then(res => {
@@ -61,5 +41,41 @@ export class PerfilPage implements OnInit {
         console.log(error);
       })
   }
+
+  async perfil(){
+    console.log(this.correo);
+    var user = firebase.auth().currentUser;
+    firebase.auth().useDeviceLanguage();
+    user.updateEmail(this.correo).then(async res => {
+      let toast = await this.toastCtrl.create({
+        duration: 3000,
+        message: 'Su correo se cambio con éxito'
+      });
+      toast.present();
+      user.sendEmailVerification().then(function() {
+        alert('verifica tu email');
+      }).catch(function(error) {
+        console.log(error);
+      });
+    }).catch(function(error){
+      alert(error.message);
+    });
+  }
+
+  async password(){
+    console.log(this.contrasena);
+    var user = firebase.auth().currentUser;
+    user.updatePassword(this.contrasena).then(async res => {
+      let toast = await this.toastCtrl.create({
+        duration: 3000,
+        message: 'Su contraseña se ha cambiado'
+      });
+      toast.present();
+    }).catch(function(error){
+      console.log(error);
+    });
+  }
+
+  
 
 }

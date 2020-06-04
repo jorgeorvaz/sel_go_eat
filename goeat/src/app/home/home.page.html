@@ -1,12 +1,14 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <img id="logo" src=".././../assets/logo.png">
+  <ion-toolbar>
+    <ion-title>
+      Encuentra tu restaurante
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-searchbar placeholder="Pizza Hut" (ionChange)="findPlace($event)" [debounce]="500"></ion-searchbar>
-  
+
   <div *ngIf="direction">
     <ion-card *ngFor="let route of direction.routes; let i = index;">
       <ion-card-header>
@@ -32,5 +34,20 @@
     <ion-icon name="hand" slot="icon-left"></ion-icon>Stop Tracking
   </ion-button>
 
+  <div style="width:100%; height:50%">
+    <ion-list *ngFor="let place of places; let i = index">
+    <ion-item *ngIf="i < 3">
+      <ion-card >
+        <ion-card-header>
+            <ion-card-title>{{place.name}}</ion-card-title>
+          </ion-card-header>
+        <ion-card-content>
+           Valoracion: {{place.rating}}/5 - 
+           Ocupacion: Desconocida
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>
