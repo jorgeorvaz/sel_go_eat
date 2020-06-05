@@ -176,23 +176,14 @@ export class HomePage implements OnInit {
       radius: 1000,
       location: this.home.getPosition()
     };
-
+    
     let service = new google.maps.places.PlacesService(this.map);
-    let my_coords:Array<any> = this.setCurrentLocation();
-
-      service.nearbySearch(request, (results, status) => {
-      console.log('results: ', results);
+    service.nearbySearch(request, (results, status) => {
       this.places=results;
-      console.log(this.places);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let place of results) {
           this.addNearbyMarker(place);
-          let distancia = this.getDistanceFromLatLonInKm(
-            my_coords[0],
-            my_coords[1],
-            place.geometry.location.lat(),
-            place.geometry.location.lng());
-            console.log(distancia);                      
+             
         }
       }
     });
@@ -230,6 +221,17 @@ export class HomePage implements OnInit {
       icon: icon
     });
 
+    let request = google.maps.places.PlaceSearchRequest = {
+      location: this.home.getPosition()
+    };
+
+    let distancia = this.getDistanceFromLatLonInKm(
+      request.location.lat(),
+      request.location.lng(),
+      place.geometry.location.lat(),
+      place.geometry.location.lng());
+      console.log(distancia);
+
     marker.addListener('click', () => {
       let photo = '';
 
@@ -238,7 +240,7 @@ export class HomePage implements OnInit {
       }
       this.infowindow
         .setContent(`<img src="${photo}" style="width: 100%;max-height: 100px;object-fit: contain;"/><br>
-      <b>${place.name}</b><br>${place.vicinity}`);
+      <b>${place.name}</b><br>${place.vicinity}</b><br>${distancia*1000} metros`);
       this.infowindow.open(this.map, marker);
     });
   }
