@@ -158,6 +158,18 @@ export class HomePage implements OnInit {
     }
   }
 
+  private setCurrentLocation() {
+    let my_coords:Array<any> = [];
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        my_coords[0] = position.coords.latitude;
+        my_coords[1] = position.coords.longitude;
+
+      });
+    }
+    return my_coords;
+  }
+
   showNearby() {
     let request = google.maps.places.PlaceSearchRequest = {
       type: 'restaurant',
@@ -166,14 +178,21 @@ export class HomePage implements OnInit {
     };
 
     let service = new google.maps.places.PlacesService(this.map);
+    let my_coords:Array<any> = this.setCurrentLocation();
 
-    service.nearbySearch(request, (results, status) => {
+      service.nearbySearch(request, (results, status) => {
       console.log('results: ', results);
       this.places=results;
       console.log(this.places);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let place of results) {
           this.addNearbyMarker(place);
+          let distancia = this.getDistanceFromLatLonInKm(
+            my_coords[0],
+            my_coords[1],
+            place.geometry.location.lat(),
+            place.geometry.location.lng());
+            console.log(distancia);                      
         }
       }
     });
@@ -300,15 +319,4 @@ export class HomePage implements OnInit {
     return deg * (Math.PI/180)
   }
 
-private setCurrentLocation() {
-    let my_coords:Array<any> = [];
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        my_coords[0] = position.coords.latitude;
-        my_coords[1] = position.coords.longitude;
-
-      });
-    }
-    return my_coords;
-  }
 }
