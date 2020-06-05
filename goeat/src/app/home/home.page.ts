@@ -82,7 +82,7 @@ export class HomePage implements OnInit {
       })
   }
   loadMap() {
-    let latLng = new google.maps.LatLng(51.5167, 9.9167);
+    let latLng = new google.maps.LatLng(40.0000000, -4.0000000);
 
     let styles = google.maps.MapTypeStyle = [
       {
@@ -173,7 +173,7 @@ export class HomePage implements OnInit {
   showNearby() {
     let request = google.maps.places.PlaceSearchRequest = {
       type: 'restaurant',
-      radius: 1000,
+      radius: 400,
       location: this.home.getPosition()
     };
     
@@ -287,21 +287,6 @@ export class HomePage implements OnInit {
     this.positionSubscription.unsubscribe();
   }
 
-  pickRoute(index) {
-    new google.maps.DirectionsRenderer({
-      map: this.map,
-      directions: this.direction,
-      routeIndex: index
-    });
-  }
-
-  openNativeRoute(route = google.maps.DirectionsRoute) {
-    let start = encodeURIComponent(route.legs[0].start_address);
-    let end = encodeURIComponent(route.legs[0].end_address);
-    let url = `https://www.google.com/maps/dir/?api=1&origin=${start}&destination=${end}`;
-    console.log('URL: ', url);
-    this.iab.create(url, '_system');
-  }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
