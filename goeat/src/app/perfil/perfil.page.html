@@ -25,22 +25,22 @@
   </ion-card>
 
   <ion-item>
-    <ion-input type="email" placeholder="Nuevo email"></ion-input>
+    <ion-input type="email" placeholder="Nuevo email" [(ngModel)]="correo"></ion-input>
   </ion-item>
     
   <ion-row>
     <ion-col>
-      <ion-button class="botonform" expand="block">Cambiar email</ion-button>
+      <ion-button class="botonform" expand="block" (click)="perfil()">Cambiar email</ion-button>
     </ion-col>
   </ion-row>
 
   <ion-item>
-    <ion-input type="password" placeholder="Nueva contraseña"></ion-input>
+    <ion-input type="password" placeholder="Nueva contraseña" [(ngModel)]="contrasena"></ion-input>
   </ion-item>
     
   <ion-row>
     <ion-col>
-      <ion-button class="botonform" expand="block">Cambiar contraseña</ion-button>
+      <ion-button class="botonform" expand="block" (click)="password()">Cambiar contraseña</ion-button>
     </ion-col>
   </ion-row>
   <hr>
