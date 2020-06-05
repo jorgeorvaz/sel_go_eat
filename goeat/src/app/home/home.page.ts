@@ -172,7 +172,7 @@ export class HomePage implements OnInit {
 
   showNearby() {
     let request = google.maps.places.PlaceSearchRequest = {
-      type: 'restaurant',
+      type: 'cafe',
       radius: 400,
       location: this.home.getPosition()
     };
