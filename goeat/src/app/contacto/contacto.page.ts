@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
+import { EmailComposer} from '@ionic-native/email-composer/ngx';
 import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { Mensaje } from './contacto.model';
@@ -24,10 +25,12 @@ export class ContactoPage implements OnInit {
   isSubmitted = false;
   usuario: Usuario = new Usuario();
   userEmail: string;
- 
-  
+  subject="";
+  body="";
+  to="";  
 
-  constructor(private authService: AuthService, public formBuilder: FormBuilder, private navCtrl: NavController, public toastController: ToastController) { }
+
+  constructor(private authService: AuthService, public emailComposer: EmailComposer, public formBuilder: FormBuilder, private navCtrl: NavController, public toastController: ToastController) { }
 
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
@@ -63,9 +66,19 @@ export class ContactoPage implements OnInit {
 
   crear_mensaje(){
     this.authService.insertar_mensaje(this.contacto);
+    let email = {
+    to:this.to,
+    cc:[],
+    bcc:[],
+    attachments:[],
+    subject: this.subject,
+    body: this.body,
+    isHtml:false,
+    app:"GoEatNow"
+    }
+    this.emailComposer.open(email);
   }
-   
-  }
+}
 
   
 
