@@ -225,7 +225,7 @@ export class HomePage implements OnInit {
       location: this.home.getPosition()
     };
 
-    let distancia = this.getDistanceFromLatLonInKm(
+    let distancia = this.getDistanceFromLatLonInMeters(
       request.location.lat(),
       request.location.lng(),
       place.geometry.location.lat(),
@@ -240,7 +240,7 @@ export class HomePage implements OnInit {
       }
       this.infowindow
         .setContent(`<img src="${photo}" style="width: 100%;max-height: 100px;object-fit: contain;"/><br>
-      <b>${place.name}</b><br>${place.vicinity}</b><br>${distancia*1000} metros`);
+      <b>${place.name}</b><br>${place.vicinity}</b><br>${distancia} metros`);
       this.infowindow.open(this.map, marker);
     });
   }
@@ -288,7 +288,7 @@ export class HomePage implements OnInit {
   }
 
 
-  getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  getDistanceFromLatLonInMeters(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
     var dLon = this.deg2rad(lon2-lon1); 
@@ -299,6 +299,7 @@ export class HomePage implements OnInit {
       ; 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
+    d = Math.round(d*1000);
     return d;
   }
   
