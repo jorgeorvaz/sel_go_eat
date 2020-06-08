@@ -27,7 +27,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <img id=\"logo\" src=\".././../assets/logo.png\">\r\n  </ion-toolbar>\r\n  <ion-toolbar>\r\n    <ion-title>\r\n      Encuentra tu restaurante\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-searchbar placeholder=\"Pizza Hut\" (ionChange)=\"findPlace($event)\" [debounce]=\"500\"></ion-searchbar>\r\n\r\n  <div *ngIf=\"direction\">\r\n    <ion-card *ngFor=\"let route of direction.routes; let i = index;\">\r\n      <ion-card-header>\r\n        <ion-card-subtitle>{{ route.legs[0].duration.text }}</ion-card-subtitle>\r\n        <ion-card-title>{{ route.legs[0].distance.text }}</ion-card-title>\r\n      </ion-card-header>\r\n      <ion-card-content>\r\n        <ion-button (click)=\"pickRoute(i)\">Pick Route</ion-button>\r\n        <ion-button (click)=\"openNativeRoute(route)\">Show native Route</ion-button>\r\n      </ion-card-content>\r\n    </ion-card>\r\n  </div>\r\n\r\n  <div #map id=\"map\"></div>\r\n  <ion-button expand=\"block\" (click)=\"toggleMarker()\">¿Dónde estas?</ion-button>\r\n  <ion-button expand=\"block\" (click)=\"showNearby()\">Mostrar bares alrededor</ion-button>\r\n\r\n  <ion-button expand=\"block\" (click)=\"startTracking()\" color=\"success\" *ngIf=\"!isTracking\">\r\n    <ion-icon name=\"locate\" slot=\"icon-left\"></ion-icon>Start Tracking\r\n  </ion-button>\r\n\r\n  <ion-button expand=\"block\" (click)=\"stopTracking()\" color=\"warning\" *ngIf=\"isTracking\">\r\n    <ion-icon name=\"hand\" slot=\"icon-left\"></ion-icon>Stop Tracking\r\n  </ion-button>\r\n\r\n  <div style=\"width:100%; height:50%\">\r\n    <ion-list *ngFor=\"let place of places; let i = index\">\r\n    <ion-item *ngIf=\"i < 3\">\r\n      <ion-card >\r\n        <ion-card-header>\r\n            <ion-card-title>{{place.name}}</ion-card-title>\r\n          </ion-card-header>\r\n        <ion-card-content>\r\n           Valoracion: {{place.rating}}/5 - \r\n           Ocupacion: Desconocida\r\n        </ion-card-content>\r\n      </ion-card>\r\n    </ion-item>\r\n    </ion-list>\r\n  </div>\r\n\r\n</ion-content>";
+    __webpack_exports__["default"] = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <img id=\"logo\" src=\".././../assets/logo.png\">\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-searchbar placeholder=\"Buscar restaurante...\" (ionChange)=\"findPlace($event)\" [debounce]=\"500\"></ion-searchbar>\r\n\r\n  <div *ngIf=\"direction\">\r\n    <ion-card *ngFor=\"let route of direction.routes; let i = index;\">\r\n      <ion-card-header>\r\n        <ion-card-subtitle>{{ route.legs[0].duration.text }}</ion-card-subtitle>\r\n        <ion-card-title>{{ route.legs[0].distance.text }}</ion-card-title>\r\n      </ion-card-header>\r\n      <ion-card-content>\r\n        <ion-button (click)=\"pickRoute(i)\">Pick Route</ion-button>\r\n        <ion-button (click)=\"openNativeRoute(route)\">Show native Route</ion-button>\r\n      </ion-card-content>\r\n    </ion-card>\r\n  </div>\r\n\r\n  <div #map id=\"map\"></div>\r\n  <ion-button expand=\"block\" (click)=\"toggleMarker()\">¿Dónde estas?</ion-button>\r\n  <ion-button expand=\"block\" (click)=\"showNearby()\">Mostrar bares alrededor</ion-button>\r\n\r\n  <ion-button expand=\"block\" (click)=\"startTracking()\" color=\"success\" *ngIf=\"!isTracking\">\r\n    <ion-icon name=\"locate\" slot=\"icon-left\"></ion-icon>Localizame\r\n  </ion-button>\r\n\r\n  <ion-button expand=\"block\" (click)=\"stopTracking()\" color=\"warning\" *ngIf=\"isTracking\">\r\n    <ion-icon name=\"hand\" slot=\"icon-left\"></ion-icon>Dejar de localizarme\r\n  </ion-button>\r\n\r\n  <div style=\"width:100%; height:50%\">\r\n    <ion-list *ngFor=\"let place of places; let i = index\">\r\n    <ion-item *ngIf=\"i < 3\">\r\n      <ion-card>\r\n        <ion-card-header>\r\n            <ion-card-title>{{place.name}}</ion-card-title>\r\n          </ion-card-header>\r\n        <ion-card-content>\r\n           Valoracion: {{place.rating}}/5 - \r\n           Ocupacion: Desconocida\r\n           <ion-button expand=\"block\" (click)=\"insertar_este_lugar(place)\">¿Estás aquí?</ion-button>\r\n        </ion-card-content>\r\n      </ion-card>\r\n    </ion-item>\r\n    </ion-list>\r\n  </div>\r\n\r\n</ion-content>";
     /***/
   },
 
@@ -251,6 +251,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _ionic_native_in_app_browser_ngx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! @ionic-native/in-app-browser/ngx */
     "./node_modules/@ionic-native/in-app-browser/__ivy_ngcc__/ngx/index.js");
+    /* harmony import */
+
+
+    var _restaurante_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    /*! ./restaurante.model */
+    "./src/app/home/restaurante.model.ts");
 
     var HomePage = /*#__PURE__*/function () {
       function HomePage(navCtrl, authService, geolocation, plt, iab) {
@@ -405,7 +411,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var _this5 = this;
 
           var request = google.maps.places.PlaceSearchRequest = {
-            type: 'cafe',
+            type: ['restaurant'],
             radius: 400,
             location: this.home.getPosition()
           };
@@ -568,6 +574,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function deg2rad(deg) {
           return deg * (Math.PI / 180);
         }
+      }, {
+        key: "insertar_este_lugar",
+        value: function insertar_este_lugar(place) {
+          var rest = new _restaurante_model__WEBPACK_IMPORTED_MODULE_8__["Restaurante"]();
+          rest.id = place.id;
+          rest.ocupacion += 1;
+          this.authService.insertar_restaurante(rest);
+          console.log(rest);
+        }
       }]);
 
       return HomePage;
@@ -601,6 +616,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       /*! ./home.page.scss */
       "./src/app/home/home.page.scss"))["default"]]
     }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"], _auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_6__["Geolocation"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["Platform"], _ionic_native_in_app_browser_ngx__WEBPACK_IMPORTED_MODULE_7__["InAppBrowser"]])], HomePage);
+    /***/
+  },
+
+  /***/
+  "./src/app/home/restaurante.model.ts":
+  /*!*******************************************!*\
+    !*** ./src/app/home/restaurante.model.ts ***!
+    \*******************************************/
+
+  /*! exports provided: Restaurante */
+
+  /***/
+  function srcAppHomeRestauranteModelTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "Restaurante", function () {
+      return Restaurante;
+    });
+
+    var Restaurante = function Restaurante() {
+      _classCallCheck(this, Restaurante);
+
+      this.ocupacion = 0;
+    };
+
+    ;
     /***/
   }
 }]);

@@ -600,6 +600,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.afDB.database.ref('mensajes').push(mensaje);
         }
       }, {
+        key: "insertar_restaurante",
+        value: function insertar_restaurante(restaurante) {
+          this.afDB.database.ref('restaurantes').push(restaurante);
+        }
+      }, {
         key: "crear_usuario",
         value: function crear_usuario(usuario) {
           var _this2 = this;

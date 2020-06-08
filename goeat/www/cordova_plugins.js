@@ -53,6 +53,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.Keyboard"
       ]
+    },
+    {
+      "id": "cordova-plugin-email-composer.EmailComposer",
+      "file": "plugins/cordova-plugin-email-composer/www/email_composer.js",
+      "pluginId": "cordova-plugin-email-composer",
+      "clobbers": [
+        "cordova.plugins.email"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -62,6 +70,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-ionic-webview": "4.2.1",
-    "cordova-plugin-ionic-keyboard": "2.2.0"
+    "cordova-plugin-ionic-keyboard": "2.2.0",
+    "cordova-plugin-email-composer": "0.9.2"
   };
 });

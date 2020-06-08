@@ -670,6 +670,9 @@ let AuthService = class AuthService {
         console.log(mensaje);
         this.afDB.database.ref('mensajes').push(mensaje);
     }
+    insertar_restaurante(restaurante) {
+        this.afDB.database.ref('restaurantes').push(restaurante);
+    }
     crear_usuario(usuario) {
         return new Promise((resolve, reject) => {
             this.afAuth.auth.createUserWithEmailAndPassword(usuario.email, usuario.password)
