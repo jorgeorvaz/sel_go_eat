@@ -181,6 +181,13 @@ export class HomePage implements OnInit {
     let service = new google.maps.places.PlacesService(this.map);
     service.nearbySearch(request, (results, status) => {
       this.places=results;
+      let request = google.maps.places.PlaceSearchRequest = {
+        location: this.home.getPosition()
+      };
+      // console.log(this.places);
+
+      this.places = this.distance_order(request.location.lat(), request.location.lng(), this.places);
+      // console.log(this.places);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let place of results) {
           this.addNearbyMarker(place);
@@ -230,7 +237,6 @@ export class HomePage implements OnInit {
       request.location.lng(),
       place.geometry.location.lat(),
       place.geometry.location.lng());
-      console.log(distancia);
 
     marker.addListener('click', () => {
       let photo = '';
@@ -312,7 +318,22 @@ export class HomePage implements OnInit {
     rest.id = place.id;
     rest.ocupacion += 1;
     this.authService.insertar_restaurante(rest);
-    console.log(rest);
+  }
+
+  distance_order(my_lat, my_lng, lugares){
+    
+    for (let i = 0; i<lugares.length - 1; i++){
+      for (let j = 0; j<lugares.length - 1 - i; j++){
+        if (this.getDistanceFromLatLonInMeters(my_lat,my_lng,lugares[j].geometry.location.lat(),lugares[j].geometry.location.lng()) 
+            > this.getDistanceFromLatLonInMeters(my_lat,my_lng,lugares[j+1].geometry.location.lat(),lugares[j+1].geometry.location.lng())){
+          let aux = lugares[j+1];
+          lugares[j+1] = lugares[j];
+          lugares[j] = aux;
+        }
+      }
+    }
+    console.log(lugares);
+    return lugares;
   }
   
 }
