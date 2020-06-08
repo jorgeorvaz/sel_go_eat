@@ -11,6 +11,7 @@ import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {Restaurante} from './restaurante.model';
 declare var google: any;
 
 @Component({
@@ -42,14 +43,14 @@ export class HomePage implements OnInit {
   start = '';
   end = '';
   direction = google.maps.DirectionsResult;
-
+  restaurante: Restaurante
 
   constructor(
     private navCtrl: NavController,
     private authService: AuthService,
     private geolocation: Geolocation,
     private plt: Platform,
-    private iab: InAppBrowser,
+    private iab: InAppBrowser
     ) { }
 
   ionViewDidEnter() {
@@ -172,7 +173,7 @@ export class HomePage implements OnInit {
 
   showNearby() {
     let request = google.maps.places.PlaceSearchRequest = {
-      type: 'cafe',
+      type: ['restaurant'],
       radius: 400,
       location: this.home.getPosition()
     };
@@ -305,5 +306,12 @@ export class HomePage implements OnInit {
   deg2rad(deg) {
     return deg * (Math.PI/180)
   }
-
+  
+  insertarRestaurante(){
+    this.restaurante.id;
+    this.restaurante.ocupacion = 1;
+    /*this.authService.insertar_restaurante(this.restaurante);*/
+    console.log(this.restaurante);
+  }
+  
 }

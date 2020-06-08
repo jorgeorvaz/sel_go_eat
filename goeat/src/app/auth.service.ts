@@ -16,6 +16,10 @@ export class AuthService {
     this.afDB.database.ref('mensajes').push(mensaje);
   }
 
+  public insertar_restaurante(restaurante){
+    this.afDB.database.ref('restaurantes').push(restaurante);
+  }
+
   public crear_usuario(usuario) {
     return new Promise<any>((resolve, reject) => {
 
