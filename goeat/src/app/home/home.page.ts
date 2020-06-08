@@ -184,7 +184,6 @@ export class HomePage implements OnInit {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let place of results) {
           this.addNearbyMarker(place);
-             
         }
       }
     });
@@ -308,11 +307,12 @@ export class HomePage implements OnInit {
     return deg * (Math.PI/180)
   }
   
-  insertarRestaurante(){
-    this.restaurante.id;
-    this.restaurante.ocupacion = 1;
-    /*this.authService.insertar_restaurante(this.restaurante);*/
-    console.log(this.restaurante);
+  insertar_este_lugar(place){
+    let rest = new Restaurante();
+    rest.id = place.id;
+    rest.ocupacion += 1;
+    this.authService.insertar_restaurante(rest);
+    console.log(rest);
   }
   
 }
