@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
  
-<ion-content>
+<ion-content class="registro_form">
   <form [formGroup]="ionicForm" (ngSubmit)="registrar()" novalidate>
  
     <ion-item lines="none">
@@ -26,10 +26,8 @@
       Tienes que introducir una contraseña
     </span>
  
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" expand="block" routerLink="/login">Registrarse</ion-button>
-      </ion-col>
-    </ion-row>
+    
+        <ion-button type="submit" class="ion-padding-horizontal" id="boton_registro" expand="block" routerLink="/login">Registrarse</ion-button>
+      
   </form>
 </ion-content>

@@ -173,7 +173,7 @@ export class HomePage implements OnInit {
 
   showNearby() {
     let request = google.maps.places.PlaceSearchRequest = {
-      type: ['restaurant'],
+      type: ['cafe'],
       radius: 400,
       location: this.home.getPosition()
     };
@@ -314,6 +314,8 @@ export class HomePage implements OnInit {
   }
   
   insertar_este_lugar(place){
+    
+
     let rest = new Restaurante();
     rest.id = place.id;
     rest.ocupacion += 1;
