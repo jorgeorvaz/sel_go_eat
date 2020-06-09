@@ -11,12 +11,13 @@
  
     <ion-item class="inputs" lines="none" >
       <ion-label position="stacked">Asunto</ion-label>
-      <ion-input maxlength="10" formControlName="asunto" [(ngModel)] = "contacto.asunto" type="asunto" required></ion-input>
+      <ion-input maxlength="10" formControlName="asunto" [(ngModel)] = "asunto" type="asunto" required></ion-input>
     </ion-item>
+    
+        <!--
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.asunto.errors?.required">
       Tienes que introducir una contraseña
     </span>
-    <!--
    <ion-item class="inputs" lines="none">
       <ion-label position="stacked">Email</ion-label>
       <ion-input formControlName="email" [(ngModel)] = "contacto.email" type="email"></ion-input>
@@ -29,8 +30,7 @@
     </span>
     -->
     <ion-item class="inputs" lines="none">
-      
-      <ion-textarea rows="6" cols="20" formControlName="mensaje" [(ngModel)] = "contacto.mensaje" placeholder="Escribe tu mensaje aqui..."></ion-textarea>
+      <ion-textarea rows="6" cols="20" formControlName="mensaje" [(ngModel)] = "mensaje" placeholder="Escribe tu mensaje aqui..."></ion-textarea>
     </ion-item>
     
     <ion-button class="ion-padding-horizontal ion-margin-vertical" expand="block" (click)= "crear_mensaje()">Enviar mensaje</ion-button>

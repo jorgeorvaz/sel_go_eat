@@ -25,9 +25,9 @@ export class ContactoPage implements OnInit {
   isSubmitted = false;
   usuario: Usuario = new Usuario();
   userEmail: string;
-  nombre='';
-  mensaje='';
-  email='';  
+  email='';
+  asunto='';
+  mensaje='';  
 
 
   constructor(private authService: AuthService, public emailComposer: EmailComposer, public formBuilder: FormBuilder, private navCtrl: NavController, public toastController: ToastController) { }
@@ -65,16 +65,16 @@ export class ContactoPage implements OnInit {
   }
 
   crear_mensaje(){
-    this.authService.insertar_mensaje(this.contacto);
+    //this.authService.insertar_mensaje(this.contacto);
     let correo = {
-    email:this.contacto.email,
-    cc:[],
-    bcc:[],
-    attachments:[],
-    nombre: this.contacto.nombre,
-    mensaje: this.contacto.mensaje,
-    isHtml:false,
-    app:"GoEatNow"
+    email: this.email,
+    cc: [],
+    bcc: [],
+    attachments: [],
+    asunto: this.asunto,
+    mensaje: this.mensaje,
+    isHtml: false,
+    app: "GoEatNow"
     }
     this.emailComposer.open(correo);
   }
