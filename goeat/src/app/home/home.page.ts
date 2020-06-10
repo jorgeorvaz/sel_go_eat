@@ -325,12 +325,10 @@ export class HomePage implements OnInit {
   }
   
   insertar_este_lugar(place){
-    
-
-    let rest = new Restaurante();
-    rest.id = place.id;
-    rest.ocupacion += 1;
-    this.authService.insertar_restaurante(rest);
+      let rest = new Restaurante();
+      rest.id = place.id;
+      rest.ocupacion += 1;
+      this.authService.insertar_restaurante(rest);
   }
 
   distance_order(my_lat, my_lng, lugares){
