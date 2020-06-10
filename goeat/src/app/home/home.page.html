@@ -40,10 +40,23 @@
   <ion-button expand="block" (click)="toggleMarker()">¿Dónde estas?</ion-button>
   <ion-button expand="block" (click)="showNearby()">Mostrar bares alrededor</ion-button>
 
-  
+  <ion-segment (ionChange)="segmentChanged($event)" value="todos">
+    <ion-segment-button value="todos">
+      <ion-icon name="layers"></ion-icon>Todos
+    </ion-segment-button>
+    <ion-segment-button value="bar">
+      <ion-icon name="beer"></ion-icon>Bares
+    </ion-segment-button>
+    <ion-segment-button value="cafeteria">
+      <ion-icon name="cafe"></ion-icon>Cafeterias
+    </ion-segment-button>
+    <ion-segment-button value="restaurante">
+      <ion-icon name="restaurant"></ion-icon>Restaurantes
+    </ion-segment-button>
+  </ion-segment>
   
 
-  <div style="width:100%; height:50%">
+  
     <ion-list *ngFor="let place of places; let i = index">
     <ion-item *ngIf="i < 3">
       <ion-card>
@@ -58,6 +71,6 @@
       </ion-card>
     </ion-item>
     </ion-list>
-  </div>
+  
 
 </ion-content>

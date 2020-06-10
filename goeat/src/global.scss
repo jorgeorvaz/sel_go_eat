@@ -80,8 +80,16 @@ ion-card-title{
 
 #boton_registro{
     margin-top: 10%;
+    
+}
+
+ion-segment{
+    --background: #7c9a92;
+    --background-hover: #314448;
+    --color-checked: #7c9a92;
 }
 
 ion-footer {
-    background: #7c9a92;
+    background-color: #c7d3bf;
+    
 }
