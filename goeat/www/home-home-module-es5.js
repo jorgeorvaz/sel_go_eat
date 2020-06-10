@@ -411,13 +411,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var _this5 = this;
 
           var request = google.maps.places.PlaceSearchRequest = {
-            type: ['restaurant'],
+            type: ['cafe'],
             radius: 400,
             location: this.home.getPosition()
           };
           var service = new google.maps.places.PlacesService(this.map);
           service.nearbySearch(request, function (results, status) {
             _this5.places = results;
+            var request = google.maps.places.PlaceSearchRequest = {
+              location: _this5.home.getPosition()
+            }; // console.log(this.places);
+
+            _this5.places = _this5.distance_order(request.location.lat(), request.location.lng(), _this5.places); // console.log(this.places);
 
             if (status === google.maps.places.PlacesServiceStatus.OK) {
               var _iterator = _createForOfIteratorHelper(results),
@@ -489,7 +494,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             location: this.home.getPosition()
           };
           var distancia = this.getDistanceFromLatLonInMeters(request.location.lat(), request.location.lng(), place.geometry.location.lat(), place.geometry.location.lng());
-          console.log(distancia);
           marker.addListener('click', function () {
             var photo = '';
 
@@ -581,7 +585,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           rest.id = place.id;
           rest.ocupacion += 1;
           this.authService.insertar_restaurante(rest);
-          console.log(rest);
+        }
+      }, {
+        key: "distance_order",
+        value: function distance_order(my_lat, my_lng, lugares) {
+          for (var i = 0; i < lugares.length - 1; i++) {
+            for (var j = 0; j < lugares.length - 1 - i; j++) {
+              if (this.getDistanceFromLatLonInMeters(my_lat, my_lng, lugares[j].geometry.location.lat(), lugares[j].geometry.location.lng()) > this.getDistanceFromLatLonInMeters(my_lat, my_lng, lugares[j + 1].geometry.location.lat(), lugares[j + 1].geometry.location.lng())) {
+                var aux = lugares[j + 1];
+                lugares[j + 1] = lugares[j];
+                lugares[j] = aux;
+              }
+            }
+          }
+
+          console.log(lugares);
+          return lugares;
         }
       }]);
 

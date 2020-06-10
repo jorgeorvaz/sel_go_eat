@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController, AlertController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Usuario } from '../registro/usuario.model';
 import { Router } from '@angular/router';
@@ -50,6 +50,8 @@ export class HomePage implements OnInit {
     private authService: AuthService,
     private geolocation: Geolocation,
     private plt: Platform,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
     private iab: InAppBrowser
     ) { }
 
@@ -251,12 +253,15 @@ export class HomePage implements OnInit {
     });
   }
 
-  startTracking() {
+  async startTracking() {
     this.isTracking = true;
     this.trackedRoute = [];
     if (this.currentMapTrack) {
       this.currentMapTrack.setMap(null);
     }
+    let toast = await this.toastCtrl.create({
+      duration: 3000,
+      message: 'Iniciando trackeo...'});
 
     this.positionSubscription = this.geolocation
       .watchPosition()
@@ -268,6 +273,7 @@ export class HomePage implements OnInit {
         });
         this.redrawPath(this.trackedRoute);
       });
+      toast.present();
   }
 
   redrawPath(path) {
@@ -288,9 +294,14 @@ export class HomePage implements OnInit {
     }
   }
 
-  stopTracking() {
+  async stopTracking() {
     this.isTracking = false;
     this.positionSubscription.unsubscribe();
+    let toast = await this.toastCtrl.create({
+      duration: 3000,
+      message: 'Has dejado de tracker...'
+    });
+    toast.present();
   }
 
 

@@ -602,7 +602,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "insertar_restaurante",
         value: function insertar_restaurante(restaurante) {
-          this.afDB.database.ref('restaurantes').push(restaurante);
+          var ref = this.afDB.database.ref("probando");
+          var local = ref.orderByChild("id").equalTo(restaurante.id);
+          console.log(local);
+
+          if (local != null) {
+            console.log("aqui no se inserta marica");
+          } else {
+            this.afDB.database.ref('probando').push(restaurante);
+          }
         }
       }, {
         key: "crear_usuario",

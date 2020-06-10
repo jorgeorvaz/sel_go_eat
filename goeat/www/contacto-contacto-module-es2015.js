@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\r\n<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <img id=\"logo\" src=\".././../assets/logo.png\">\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n\r\n    <form [formGroup]=\"ionicForm\" (ngSubmit)=\"enviar_mensaje()\" novalidate> \r\n \r\n    <ion-item class=\"inputs\" lines=\"none\" >\r\n      <ion-label position=\"stacked\">Nombre</ion-label>\r\n      <ion-input maxlength=\"10\" formControlName=\"nombre\" [(ngModel)] = \"contacto.nombre\" type=\"nombre\" required></ion-input>\r\n    </ion-item>\r\n    <span class=\"error ion-padding\" *ngIf=\"isSubmitted && errorControl.nombre.errors?.required\">\r\n      Tienes que introducir una contraseña\r\n    </span>\r\n\r\n   <ion-item class=\"inputs\" lines=\"none\">\r\n      <ion-label position=\"stacked\">Email</ion-label>\r\n      <ion-input formControlName=\"email\" [(ngModel)] = \"contacto.email\" type=\"email\"></ion-input>\r\n    </ion-item>\r\n    <span class=\"error ion-padding\" *ngIf=\"isSubmitted && errorControl.email.errors?.required\">\r\n      Tienes que introducir un email\r\n    </span>\r\n    <span class=\"error ion-padding\" *ngIf=\"isSubmitted && errorControl.email.errors?.pattern\">\r\n      Tienes que introducir un email valido\r\n    </span>\r\n    \r\n    <ion-item class=\"inputs\" lines=\"none\">\r\n      \r\n      <ion-textarea rows=\"6\" cols=\"20\" formControlName=\"mensaje\" [(ngModel)] = \"contacto.mensaje\" placeholder=\"Escribe tu mensaje aqui...\"></ion-textarea>\r\n    </ion-item>\r\n    \r\n    <ion-button class=\"ion-padding-horizontal ion-margin-vertical\" expand=\"block\" (click)= \"crear_mensaje()\">Enviar mensaje</ion-button>\r\n      \r\n  </form>\r\n\r\n  </ion-content>\r\n\r\n\r\n\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <img id=\"logo\" src=\".././../assets/logo.png\">\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n \r\n    <ion-item class=\"inputs\" lines=\"none\" >\r\n      <ion-label position=\"stacked\">Asunto</ion-label>\r\n      <ion-input maxlength=\"10\" [(ngModel)] = \"asunto\" type=\"asunto\" required></ion-input>\r\n    </ion-item>\r\n    \r\n    <ion-item class=\"inputs\" lines=\"none\">\r\n      <ion-textarea rows=\"6\" cols=\"20\" [(ngModel)] = \"mensaje\" placeholder=\"Escribe tu mensaje aqui...\"></ion-textarea>\r\n    </ion-item>\r\n    \r\n    <ion-button class=\"ion-padding-horizontal ion-margin-vertical\" expand=\"block\" (click)= \"crear_mensaje()\">Enviar mensaje</ion-button>\r\n      \r\n\r\n\r\n  </ion-content>\r\n\r\n\r\n\r\n\r\n");
 
 /***/ }),
 
@@ -163,9 +163,7 @@ let ContactoPage = class ContactoPage {
         this.contacto = new _contacto_model__WEBPACK_IMPORTED_MODULE_7__["Mensaje"]();
         this.isSubmitted = false;
         this.usuario = new _registro_usuario_model__WEBPACK_IMPORTED_MODULE_2__["Usuario"]();
-        this.nombre = '';
-        this.mensaje = '';
-        this.email = '';
+        this.email = 'proyectogoeat@gmail.com';
     }
     ngOnInit() {
         this.ionicForm = this.formBuilder.group({
@@ -198,18 +196,19 @@ let ContactoPage = class ContactoPage {
         });
     }
     crear_mensaje() {
-        this.authService.insertar_mensaje(this.contacto);
+        //this.authService.insertar_mensaje(this.contacto);
         let correo = {
-            email: this.contacto.email,
+            to: this.email,
             cc: [],
             bcc: [],
             attachments: [],
-            nombre: this.contacto.nombre,
-            mensaje: this.contacto.mensaje,
+            subject: this.asunto,
+            body: this.mensaje,
             isHtml: false,
             app: "GoEatNow"
         };
         this.emailComposer.open(correo);
+        console.log(correo);
     }
 };
 ContactoPage.ctorParameters = () => [

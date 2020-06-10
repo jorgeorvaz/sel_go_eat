@@ -671,7 +671,15 @@ let AuthService = class AuthService {
         this.afDB.database.ref('mensajes').push(mensaje);
     }
     insertar_restaurante(restaurante) {
-        this.afDB.database.ref('restaurantes').push(restaurante);
+        var ref = this.afDB.database.ref("probando");
+        let local = ref.orderByChild("id").equalTo(restaurante.id);
+        console.log(local);
+        if (local != null) {
+            console.log("aqui no se inserta marica");
+        }
+        else {
+            this.afDB.database.ref('probando').push(restaurante);
+        }
     }
     crear_usuario(usuario) {
         return new Promise((resolve, reject) => {
