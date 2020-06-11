@@ -38,19 +38,19 @@
 
   <div #map id="map"></div>
   <ion-button expand="block" (click)="toggleMarker()">¿Dónde estas?</ion-button>
-  <ion-button expand="block" (click)="showNearby()">Mostrar bares alrededor</ion-button>
+  <ion-button expand="block" (click)="showNearby('cafe')">Mostrar bares alrededor</ion-button>
 
-  <ion-segment (ionChange)="segmentChanged($event)" value="todos">
-    <ion-segment-button value="todos">
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="todos" (click)="showNearby()">
       <ion-icon name="layers"></ion-icon>Todos
     </ion-segment-button>
-    <ion-segment-button value="bar">
+    <ion-segment-button value="bar" (click)="showNearby('bar')">
       <ion-icon name="beer"></ion-icon>Bares
     </ion-segment-button>
-    <ion-segment-button value="cafeteria">
+    <ion-segment-button value="cafeteria" (click)="showNearby('cafe')">
       <ion-icon name="cafe"></ion-icon>Cafeterias
     </ion-segment-button>
-    <ion-segment-button value="restaurante">
+    <ion-segment-button value="restaurante" (click)="showNearby('restaurant')">
       <ion-icon name="restaurant"></ion-icon>Restaurantes
     </ion-segment-button>
   </ion-segment>
