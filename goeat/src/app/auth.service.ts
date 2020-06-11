@@ -42,6 +42,29 @@ export class AuthService {
     });
   }
 
+  public borrar_ocupacion(restaurante){
+    var ref = this.afDB.database.ref("probando");
+    var rest_id = restaurante.id;
+    return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot) {
+      var ocup = snapshot.val() && snapshot.val().ocupacion;
+      console.log(ocup);
+      if (ocup != null){
+        ocup -= 1;
+        const rest_updt ={
+          ocupacion: ocup
+        };
+        ref.child(restaurante.id).update(rest_updt);
+      }
+      else{
+        const rest_updt ={
+          ocupacion: restaurante.ocupacion  
+        };
+        ref.child(restaurante.id).update(rest_updt);
+      }
+    });
+
+  }
+
   public crear_usuario(usuario) {
     return new Promise<any>((resolve, reject) => {
 
