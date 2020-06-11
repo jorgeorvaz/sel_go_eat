@@ -25,7 +25,6 @@ export class AuthService {
     var rest_id = restaurante.id;
     return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot) {
       var ocup = snapshot.val() && snapshot.val().ocupacion;
-      console.log(ocup);
       if (ocup != null){
         ocup += 1;
         const rest_updt ={
@@ -47,7 +46,6 @@ export class AuthService {
     var rest_id = restaurante.id;
     return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot) {
       var ocup = snapshot.val() && snapshot.val().ocupacion;
-      console.log(ocup);
       if (ocup != null){
         ocup -= 1;
         const rest_updt ={
