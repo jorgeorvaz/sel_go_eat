@@ -173,9 +173,9 @@ export class HomePage implements OnInit {
     return my_coords;
   }
 
-  showNearby() {
+  showNearby(local) {
     let request = google.maps.places.PlaceSearchRequest = {
-      type: ['restaurant'],
+      type: [local],
       radius: 400,
       location: this.home.getPosition()
     };

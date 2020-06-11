@@ -8,61 +8,48 @@
   <ion-grid>
     <ion-row>
       <ion-col size="9" size-md>
-        <ion-searchbar placeholder="Buscar restaurante..." (ionChange)="findPlace($event)" [debounce]="500"></ion-searchbar>
+        <ion-searchbar placeholder="Buscar restaurante..." (ionChange)="findPlace($event)" [debounce]="500">
+        </ion-searchbar>
       </ion-col>
 
       <ion-col size="3" size-md>
-          <ion-button  (click)="startTracking()" color="success" *ngIf="!isTracking">
-            <ion-icon name="locate" slot="icon-only"></ion-icon>
-          </ion-button>
+        <ion-button (click)="startTracking()" color="success" *ngIf="!isTracking">
+          <ion-icon name="locate" slot="icon-only"></ion-icon>
+        </ion-button>
 
-          <ion-button  (click)="stopTracking()" color="warning" *ngIf="isTracking">
-            <ion-icon name="locate" slot="icon-only"></ion-icon>
-          </ion-button>
+        <ion-button (click)="stopTracking()" color="warning" *ngIf="isTracking">
+          <ion-icon name="locate" slot="icon-only"></ion-icon>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <div *ngIf="direction">
-    <ion-card *ngFor="let route of direction.routes; let i = index;">
-      <ion-card-header>
-        <ion-card-subtitle>{{ route.legs[0].duration.text }}</ion-card-subtitle>
-        <ion-card-title>{{ route.legs[0].distance.text }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-button (click)="pickRoute(i)">Pick Route</ion-button>
-        <ion-button (click)="openNativeRoute(route)">Show native Route</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </div>
+
 
   <div #map id="map"></div>
   <ion-button expand="block" (click)="toggleMarker()">¿Dónde estas?</ion-button>
-  <ion-button expand="block" (click)="showNearby()">Mostrar bares alrededor</ion-button>
+  <hr>
 
-  <ion-segment (ionChange)="segmentChanged($event)" value="todos">
-    <ion-segment-button value="todos">
-      <ion-icon name="layers"></ion-icon>Todos
-    </ion-segment-button>
-    <ion-segment-button value="bar">
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="bar" (click)="showNearby('bar')">
       <ion-icon name="beer"></ion-icon>Bares
     </ion-segment-button>
-    <ion-segment-button value="cafeteria">
+    <ion-segment-button value="cafeteria" (click)="showNearby('cafe')">
       <ion-icon name="cafe"></ion-icon>Cafeterias
     </ion-segment-button>
-    <ion-segment-button value="restaurante">
+    <ion-segment-button value="restaurante" (click)="showNearby('restaurant')">
       <ion-icon name="restaurant"></ion-icon>Restaurantes
     </ion-segment-button>
   </ion-segment>
-  
 
-  
-    <ion-list *ngFor="let place of places; let i = index">
+
+
+  <ion-list *ngFor="let place of places; let i = index">
     <ion-item *ngIf="i < 3">
       <ion-card>
         <ion-card-header>
-            <ion-card-title>{{place.name}}</ion-card-title>
-          </ion-card-header>
+          <ion-card-title>{{place.name}}</ion-card-title>
+        </ion-card-header>
         <ion-card-content>
            Valoracion: {{place.rating}}/5 - 
            Ocupacion: Desconocida
@@ -72,7 +59,7 @@
         </ion-card-content>
       </ion-card>
     </ion-item>
-    </ion-list>
-  
+  </ion-list>
+
 
 </ion-content>
