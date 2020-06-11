@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Geolocation, GeolocationOptions, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -26,6 +25,7 @@ export class HomePage implements OnInit {
   currentPos: Geoposition;
   userEmail: string;
   places: Array<any>;
+  place_markers: Array<any> = [];
   usuario: Usuario = new Usuario();
   public isError = false;
   public isLogged = false;
@@ -154,6 +154,15 @@ export class HomePage implements OnInit {
     this.home.setMap(null);
   }
 
+  remove_place_markers() {
+    if(this.place_markers.length > 0){
+      for (let marker of this.place_markers){
+        marker.setMap(null);
+      }
+    }
+    
+  }
+
   toggleMarker() {
     if (this.home.getAnimation() !== null) {
       this.home.setAnimation(null);
@@ -175,6 +184,11 @@ export class HomePage implements OnInit {
   }
 
   showNearby(local) {
+    if(this.place_markers){
+      console.log(this.place_markers.length);
+      this.remove_place_markers();
+    }
+    
     let request = google.maps.places.PlaceSearchRequest = {
       type: [local],
       radius: 400,
@@ -230,6 +244,8 @@ export class HomePage implements OnInit {
       position: place.geometry.location,
       icon: icon
     });
+
+    this.place_markers.push(marker);
 
     let request = google.maps.places.PlaceSearchRequest = {
       location: this.home.getPosition()
