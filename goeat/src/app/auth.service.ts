@@ -103,4 +103,13 @@ export class AuthService {
     return this.afAuth.user
   }
 
+  ocupacionRestaurante(restaurante) {
+    var ref = this.afDB.database.ref("probando");
+    var rest_id = restaurante.id;
+    return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot){
+      var ocup = snapshot.val() && snapshot.val().ocupacion;
+    });
+    
+  }
+
 }
