@@ -52,10 +52,9 @@
         </ion-card-header>
         <ion-card-content>
            Valoracion: {{place.rating}}/5 - 
-           Ocupacion: 
-           <ion-button expand="block" (click)="insertar_este_lugar(place)">¿Estás aquí?</ion-button>
-           <ion-button expand="block" (click)="salirLocal(place)">No estoy</ion-button>
-
+           Ocupacion: Desconocida
+           <ion-button expand="block" (click)="insertar_este_lugar(place)" *ngIf = "mostrar">¿Estás aquí?</ion-button>
+           <ion-button expand="block" (click)="salirLocal(place)" *ngIf = "!mostrar">No estoy</ion-button>
         </ion-card-content>
       </ion-card>
     </ion-item>

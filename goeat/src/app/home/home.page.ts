@@ -29,6 +29,7 @@ export class HomePage implements OnInit {
   usuario: Usuario = new Usuario();
   public isError = false;
   public isLogged = false;
+  public mostrar = true;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   @ViewChild('map') mapElement: ElementRef;
   map = google.maps.Map;
@@ -341,17 +342,23 @@ export class HomePage implements OnInit {
   }
   
   insertar_este_lugar(place){
+      this.mostrar = false;
       let rest = new Restaurante();
       rest.id = place.id;
       rest.ocupacion += 1;
       this.authService.insertar_restaurante(rest);
+     
   }
   salirLocal(place){
+    this.mostrar = true;
     let rest = new Restaurante();
       rest.id = place.id;
-     
+     rest.ocupacion -=1;
       this.authService.borrar_ocupacion(rest);
+     
   }
+
+  
 
   distance_order(my_lat, my_lng, lugares){
     
