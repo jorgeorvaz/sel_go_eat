@@ -346,6 +346,12 @@ export class HomePage implements OnInit {
       rest.ocupacion += 1;
       this.authService.insertar_restaurante(rest);
   }
+  salirLocal(place){
+    let rest = new Restaurante();
+      rest.id = place.id;
+     
+      this.authService.borrar_ocupacion(rest);
+  }
 
   distance_order(my_lat, my_lng, lugares){
     
