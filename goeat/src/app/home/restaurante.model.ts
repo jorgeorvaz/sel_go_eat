@@ -1,4 +1,6 @@
 export class Restaurante{
     id?:string;
-    ocupacion?:number = 0;
+    name?:string;
+    valoracion?:number;
+    ocupacion?:any = 0;
 };

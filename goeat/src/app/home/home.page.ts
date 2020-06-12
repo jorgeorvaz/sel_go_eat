@@ -26,6 +26,7 @@ export class HomePage implements OnInit {
   userEmail: string;
   places: Array<any>;
   place_markers: Array<any> = [];
+  locales_places: Array<any> = [];
   usuario: Usuario = new Usuario();
   public isError = false;
   public isLogged = false;
@@ -60,8 +61,6 @@ export class HomePage implements OnInit {
     this.loadMap();
     this.loadUserPosition();
   }
-
-
 
   ngOnInit() {
 
@@ -185,7 +184,6 @@ export class HomePage implements OnInit {
 
   showNearby(local) {
     if(this.place_markers){
-      console.log(this.place_markers.length);
       this.remove_place_markers();
     }
     
@@ -204,6 +202,7 @@ export class HomePage implements OnInit {
       // console.log(this.places);
 
       this.places = this.distance_order(request.location.lat(), request.location.lng(), this.places);
+      this.lista_rest();
       // console.log(this.places);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let place of results) {
@@ -352,13 +351,11 @@ export class HomePage implements OnInit {
   salirLocal(place){
     this.mostrar = true;
     let rest = new Restaurante();
-      rest.id = place.id;
-     rest.ocupacion -=1;
-      this.authService.borrar_ocupacion(rest);
+    rest.id = place.id;
+    rest.ocupacion -=1;
+    this.authService.borrar_ocupacion(rest);
      
   }
-
-  
 
   distance_order(my_lat, my_lng, lugares){
     
@@ -372,8 +369,22 @@ export class HomePage implements OnInit {
         }
       }
     }
-    console.log(lugares);
+    // console.log(lugares);
     return lugares;
+  }
+
+  lista_rest(){
+    this.locales_places = [];
+    for (let i = 0; i < this.places.length; i++){
+      let local = new Restaurante();
+      local.id = this.places[i].id;
+      local.name = this.places[i].name;
+      local.valoracion = this.places[i].rating;
+      local.ocupacion = this.authService.get_ocupacion(this.places[i].id);
+      console.log(local.ocupacion);
+      this.locales_places.push(local);
+    }
+    console.log(this.locales_places);
   }
   
 }

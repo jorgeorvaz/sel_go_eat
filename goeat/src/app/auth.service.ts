@@ -101,13 +101,23 @@ export class AuthService {
     return this.afAuth.user
   }
 
-  ocupacionRestaurante(restaurante) {
-    var ref = this.afDB.database.ref("probando");
-    var rest_id = restaurante.id;
-    return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot){
-      var ocup = snapshot.val() && snapshot.val().ocupacion;
-    });
-    
+  public get_ocupacion(id){
+    var default_ocup = -1;
+    var ocup: number;
+    // console.log("llego a get_ocupacion");
+    this.afDB.database.ref("probando/"+id).once('value').then(function(snapshot) {
+      ocup = snapshot.val() && snapshot.val().ocupacion;
+      // console.log("llego a hacer la query");
+      console.log(ocup);
+      return ocup;
+  });
+      
+    //   console.log(typeof ocup);
+    //   console.log(ocup);
+    //   if(ocup != null){
+    //     return ocup;
+    //   }
+    // return default_ocup;
   }
 
 }

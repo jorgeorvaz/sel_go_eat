@@ -45,15 +45,16 @@
 
 
 
-  <ion-list *ngFor="let place of places; let i = index">
+  <ion-list *ngFor="let place of locales_places; let i = index">
     <ion-item *ngIf="i < 3">
       <ion-card>
         <ion-card-header>
           <ion-card-title>{{place.name}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
+           ID: {{place.id}} - 
            Valoracion: {{place.rating}}/5 - 
-           Ocupacion: 
+           Ocupacion: {{place.ocupacion}}
            <ion-button expand="block" (click)="insertar_este_lugar(place)" *ngIf = "mostrar">¿Estás aquí?</ion-button>
            <ion-button expand="block" color = "danger" (click)="salirLocal(place)" *ngIf = "!mostrar">No estoy</ion-button>
 
