@@ -55,11 +55,10 @@
            Valoracion: {{place.rating}}/5 - 
            Ocupacion: {{place.ocupacion}}
            <ion-button expand="block" (click)="insertar_este_lugar(place)" *ngIf = "mostrar">¿Estás aquí?</ion-button>
-           <ion-button expand="block" color = "danger" (click)="salirLocal(place)" *ngIf = "!mostrar">No estoy</ion-button>
+           
         </ion-card-content>
       </ion-card>
     </ion-item>
   </ion-list>
-
-
+  <ion-button expand="block" color = "danger" (click)="salirLocal(restaurant)" *ngIf = "!mostrar">No estoy</ion-button>
 </ion-content>

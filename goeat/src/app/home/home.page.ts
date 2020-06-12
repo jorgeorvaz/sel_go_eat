@@ -30,6 +30,7 @@ export class HomePage implements OnInit {
   place_markers: Array<any> = [];
   locales_places: Array<any> = [];
   usuario: Usuario = new Usuario();
+  restaurant: Restaurante = new Restaurante();
   public isError = false;
   public isLogged = false;
   public mostrar = true;
@@ -344,6 +345,7 @@ export class HomePage implements OnInit {
   }
   
   insertar_este_lugar(place){
+      this.restaurant = place;
       this.mostrar = false;
       let rest = new Restaurante();
       rest.id = place.id;
