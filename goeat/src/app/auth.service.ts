@@ -14,16 +14,10 @@ export class AuthService {
 
   constructor(public afDB: AngularFireDatabase, private afAuth: AngularFireAuth) { }
 
-  public insertar_mensaje(mensaje){
-    console.log(mensaje);
-    this.afDB.database.ref('mensajes').push(mensaje);
-  }
-
-
   public insertar_restaurante(restaurante){
-    var ref = this.afDB.database.ref("probando");
+    var ref = this.afDB.database.ref("establecimientos");
     var rest_id = restaurante.id;
-    return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot) {
+    return this.afDB.database.ref("establecimientos/"+rest_id).once('value').then(function(snapshot) {
       var ocup = snapshot.val() && snapshot.val().ocupacion;
       if (ocup != null){
         ocup += 1;
@@ -42,9 +36,9 @@ export class AuthService {
   }
 
   public borrar_ocupacion(restaurante){
-    var ref = this.afDB.database.ref("probando");
+    var ref = this.afDB.database.ref("establecimientos");
     var rest_id = restaurante.id;
-    return this.afDB.database.ref("probando/"+rest_id).once('value').then(function(snapshot) {
+    return this.afDB.database.ref("establecimientos/"+rest_id).once('value').then(function(snapshot) {
       var ocup = snapshot.val() && snapshot.val().ocupacion;
       if (ocup != null){
         ocup -= 1;
@@ -99,25 +93,6 @@ export class AuthService {
 
   userDetails() {
     return this.afAuth.user
-  }
-
-  public get_ocupacion(id){
-    var default_ocup = -1;
-    var ocup: number;
-    // console.log("llego a get_ocupacion");
-    this.afDB.database.ref("probando/"+id).once('value').then(function(snapshot) {
-      ocup = snapshot.val() && snapshot.val().ocupacion;
-      // console.log("llego a hacer la query");
-      console.log(ocup);
-      return ocup;
-  });
-      
-    //   console.log(typeof ocup);
-    //   console.log(ocup);
-    //   if(ocup != null){
-    //     return ocup;
-    //   }
-    // return default_ocup;
   }
 
 }

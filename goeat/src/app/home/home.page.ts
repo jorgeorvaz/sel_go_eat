@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import {Restaurante} from './restaurante.model';
+import { AngularFireDatabase } from 'angularfire2/database';
+
 declare var google: any;
 
 @Component({
@@ -48,6 +50,7 @@ export class HomePage implements OnInit {
   restaurante: Restaurante
 
   constructor(
+    public afDB: AngularFireDatabase,
     private navCtrl: NavController,
     private authService: AuthService,
     private geolocation: Geolocation,
@@ -369,7 +372,6 @@ export class HomePage implements OnInit {
         }
       }
     }
-    // console.log(lugares);
     return lugares;
   }
 
@@ -380,11 +382,14 @@ export class HomePage implements OnInit {
       local.id = this.places[i].id;
       local.name = this.places[i].name;
       local.valoracion = this.places[i].rating;
-      local.ocupacion = this.authService.get_ocupacion(this.places[i].id);
-      console.log(local.ocupacion);
+      
+      this.afDB.database.ref("establecimientos/"+local.id).once('value').then(function(snapshot) {
+        local.ocupacion = snapshot.val() && snapshot.val().ocupacion;
+      });
       this.locales_places.push(local);
     }
     console.log(this.locales_places);
   }
+
   
 }
