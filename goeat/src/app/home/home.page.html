@@ -6,13 +6,13 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col size="9" size-md>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="9">
         <ion-searchbar placeholder="Buscar restaurante..." (ionChange)="findPlace($event)" [debounce]="500">
         </ion-searchbar>
       </ion-col>
 
-      <ion-col size="3" size-md>
+      <ion-col size="1">
         <ion-button (click)="startTracking()" color="success" *ngIf="!isTracking">
           <ion-icon name="locate" slot="icon-only"></ion-icon>
         </ion-button>
