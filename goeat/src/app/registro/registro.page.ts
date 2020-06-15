@@ -34,7 +34,7 @@ export class RegistroPage implements OnInit {
     var isChecked = e.currentTarget.checked;
   }
 
-  registrar(){
+  async registrar(){
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
       console.log('Inserta los datos bien!')

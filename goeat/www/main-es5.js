@@ -594,23 +594,48 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       _createClass(AuthService, [{
-        key: "insertar_mensaje",
-        value: function insertar_mensaje(mensaje) {
-          console.log(mensaje);
-          this.afDB.database.ref('mensajes').push(mensaje);
-        }
-      }, {
         key: "insertar_restaurante",
         value: function insertar_restaurante(restaurante) {
-          var ref = this.afDB.database.ref("probando");
-          var local = ref.orderByChild("id").equalTo(restaurante.id);
-          console.log(local);
+          var ref = this.afDB.database.ref("establecimientos");
+          var rest_id = restaurante.id;
+          return this.afDB.database.ref("establecimientos/" + rest_id).once('value').then(function (snapshot) {
+            var ocup = snapshot.val() && snapshot.val().ocupacion;
 
-          if (local != null) {
-            console.log("aqui no se inserta marica");
-          } else {
-            this.afDB.database.ref('probando').push(restaurante);
-          }
+            if (ocup != null) {
+              ocup += 1;
+              var rest_updt = {
+                ocupacion: ocup
+              };
+              ref.child(restaurante.id).update(rest_updt);
+            } else {
+              var _rest_updt = {
+                ocupacion: restaurante.ocupacion
+              };
+              ref.child(restaurante.id).update(_rest_updt);
+            }
+          });
+        }
+      }, {
+        key: "borrar_ocupacion",
+        value: function borrar_ocupacion(restaurante) {
+          var ref = this.afDB.database.ref("establecimientos");
+          var rest_id = restaurante.id;
+          return this.afDB.database.ref("establecimientos/" + rest_id).once('value').then(function (snapshot) {
+            var ocup = snapshot.val() && snapshot.val().ocupacion;
+
+            if (ocup != null) {
+              ocup -= 1;
+              var rest_updt = {
+                ocupacion: ocup
+              };
+              ref.child(restaurante.id).update(rest_updt);
+            } else {
+              var _rest_updt2 = {
+                ocupacion: restaurante.ocupacion
+              };
+              ref.child(restaurante.id).update(_rest_updt2);
+            }
+          });
         }
       }, {
         key: "crear_usuario",

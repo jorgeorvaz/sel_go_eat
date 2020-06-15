@@ -27,7 +27,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <img id=\"logo\" src=\".././../assets/logo.png\">\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-searchbar placeholder=\"Buscar restaurante...\" (ionChange)=\"findPlace($event)\" [debounce]=\"500\"></ion-searchbar>\r\n\r\n  <div *ngIf=\"direction\">\r\n    <ion-card *ngFor=\"let route of direction.routes; let i = index;\">\r\n      <ion-card-header>\r\n        <ion-card-subtitle>{{ route.legs[0].duration.text }}</ion-card-subtitle>\r\n        <ion-card-title>{{ route.legs[0].distance.text }}</ion-card-title>\r\n      </ion-card-header>\r\n      <ion-card-content>\r\n        <ion-button (click)=\"pickRoute(i)\">Pick Route</ion-button>\r\n        <ion-button (click)=\"openNativeRoute(route)\">Show native Route</ion-button>\r\n      </ion-card-content>\r\n    </ion-card>\r\n  </div>\r\n\r\n  <div #map id=\"map\"></div>\r\n  <ion-button expand=\"block\" (click)=\"toggleMarker()\">¿Dónde estas?</ion-button>\r\n  <ion-button expand=\"block\" (click)=\"showNearby()\">Mostrar bares alrededor</ion-button>\r\n\r\n  <ion-button expand=\"block\" (click)=\"startTracking()\" color=\"success\" *ngIf=\"!isTracking\">\r\n    <ion-icon name=\"locate\" slot=\"icon-left\"></ion-icon>Localizame\r\n  </ion-button>\r\n\r\n  <ion-button expand=\"block\" (click)=\"stopTracking()\" color=\"warning\" *ngIf=\"isTracking\">\r\n    <ion-icon name=\"hand\" slot=\"icon-left\"></ion-icon>Dejar de localizarme\r\n  </ion-button>\r\n\r\n  <div style=\"width:100%; height:50%\">\r\n    <ion-list *ngFor=\"let place of places; let i = index\">\r\n    <ion-item *ngIf=\"i < 3\">\r\n      <ion-card>\r\n        <ion-card-header>\r\n            <ion-card-title>{{place.name}}</ion-card-title>\r\n          </ion-card-header>\r\n        <ion-card-content>\r\n           Valoracion: {{place.rating}}/5 - \r\n           Ocupacion: Desconocida\r\n           <ion-button expand=\"block\" (click)=\"insertar_este_lugar(place)\">¿Estás aquí?</ion-button>\r\n        </ion-card-content>\r\n      </ion-card>\r\n    </ion-item>\r\n    </ion-list>\r\n  </div>\r\n\r\n</ion-content>";
+    __webpack_exports__["default"] = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <img id=\"logo\" src=\".././../assets/logo.png\">\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-grid>\r\n    <ion-row>\r\n      <ion-col size=\"9\" size-md>\r\n        <ion-searchbar placeholder=\"Buscar restaurante...\" (ionChange)=\"findPlace($event)\" [debounce]=\"500\">\r\n        </ion-searchbar>\r\n      </ion-col>\r\n\r\n      <ion-col size=\"3\" size-md>\r\n        <ion-button (click)=\"startTracking()\" color=\"success\" *ngIf=\"!isTracking\">\r\n          <ion-icon name=\"locate\" slot=\"icon-only\"></ion-icon>\r\n        </ion-button>\r\n\r\n        <ion-button (click)=\"stopTracking()\" color=\"warning\" *ngIf=\"isTracking\">\r\n          <ion-icon name=\"locate\" slot=\"icon-only\"></ion-icon>\r\n        </ion-button>\r\n      </ion-col>\r\n    </ion-row>\r\n  </ion-grid>\r\n\r\n\r\n\r\n  <div #map id=\"map\"></div>\r\n  <hr>\r\n  <ion-button expand=\"block\" (click)=\"toggleMarker()\">¿Dónde estas?</ion-button>\r\n  <hr>\r\n\r\n  <ion-segment>\r\n    <ion-segment-button value=\"bar\" (click)=\"showNearby('bar')\">\r\n      <ion-icon name=\"beer\"></ion-icon>Bares\r\n    </ion-segment-button>\r\n    <ion-segment-button value=\"cafeteria\" (click)=\"showNearby('cafe')\">\r\n      <ion-icon name=\"cafe\"></ion-icon>Cafeterias\r\n    </ion-segment-button>\r\n    <ion-segment-button value=\"restaurante\" (click)=\"showNearby('restaurant')\">\r\n      <ion-icon name=\"restaurant\"></ion-icon>Restaurantes\r\n    </ion-segment-button>\r\n  </ion-segment>\r\n\r\n\r\n\r\n  <ion-list *ngFor=\"let place of locales_places; let i = index\">\r\n    <ion-item *ngIf=\"i < 3\">\r\n      <ion-card>\r\n        <ion-card-header>\r\n          <ion-card-title>{{place.name}}</ion-card-title>\r\n        </ion-card-header>\r\n        <ion-card-content>\r\n           Valoracion: {{place.rating}}/5 - \r\n           Ocupacion: {{place.ocupacion}}\r\n           <ion-button expand=\"block\" (click)=\"insertar_este_lugar(place)\" *ngIf = \"mostrar\">¿Estás aquí?</ion-button>\r\n           \r\n        </ion-card-content>\r\n      </ion-card>\r\n    </ion-item>\r\n  </ion-list>\r\n  <ion-button expand=\"block\" color = \"danger\" (click)=\"salirLocal(restaurant)\" *ngIf = \"!mostrar\">No estoy</ion-button>\r\n</ion-content>";
     /***/
   },
 
@@ -257,20 +257,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _restaurante_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
     /*! ./restaurante.model */
     "./src/app/home/restaurante.model.ts");
+    /* harmony import */
+
+
+    var angularfire2_database__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+    /*! angularfire2/database */
+    "./node_modules/angularfire2/database/index.js");
+    /* harmony import */
+
+
+    var angularfire2_database__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(angularfire2_database__WEBPACK_IMPORTED_MODULE_9__);
 
     var HomePage = /*#__PURE__*/function () {
-      function HomePage(navCtrl, authService, geolocation, plt, iab) {
+      function HomePage(afDB, navCtrl, authService, geolocation, plt, alertCtrl, toastCtrl, iab) {
         _classCallCheck(this, HomePage);
 
+        this.afDB = afDB;
         this.navCtrl = navCtrl;
         this.authService = authService;
         this.geolocation = geolocation;
         this.plt = plt;
+        this.alertCtrl = alertCtrl;
+        this.toastCtrl = toastCtrl;
         this.iab = iab;
         this.count_position = 0;
+        this.place_markers = [];
+        this.locales_places = [];
         this.usuario = new _registro_usuario_model__WEBPACK_IMPORTED_MODULE_4__["Usuario"]();
+        this.restaurant = new _restaurante_model__WEBPACK_IMPORTED_MODULE_8__["Restaurante"]();
         this.isError = false;
         this.isLogged = false;
+        this.mostrar = true;
         this.map = google.maps.Map;
         this.home = google.maps.Marker;
         this.infowindow = new google.maps.InfoWindow();
@@ -383,6 +400,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.home.setMap(null);
         }
       }, {
+        key: "remove_place_markers",
+        value: function remove_place_markers() {
+          if (this.place_markers.length > 0) {
+            var _iterator = _createForOfIteratorHelper(this.place_markers),
+                _step;
+
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                var marker = _step.value;
+                marker.setMap(null);
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+          }
+        }
+      }, {
         key: "toggleMarker",
         value: function toggleMarker() {
           if (this.home.getAnimation() !== null) {
@@ -407,11 +443,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }, {
         key: "showNearby",
-        value: function showNearby() {
+        value: function showNearby(local) {
           var _this5 = this;
 
+          if (this.place_markers) {
+            this.remove_place_markers();
+          }
+
           var request = google.maps.places.PlaceSearchRequest = {
-            type: ['cafe'],
+            type: [local],
             radius: 400,
             location: this.home.getPosition()
           };
@@ -422,22 +462,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               location: _this5.home.getPosition()
             }; // console.log(this.places);
 
-            _this5.places = _this5.distance_order(request.location.lat(), request.location.lng(), _this5.places); // console.log(this.places);
+            _this5.places = _this5.distance_order(request.location.lat(), request.location.lng(), _this5.places);
+
+            _this5.lista_rest(); // console.log(this.places);
+
 
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              var _iterator = _createForOfIteratorHelper(results),
-                  _step;
+              var _iterator2 = _createForOfIteratorHelper(results),
+                  _step2;
 
               try {
-                for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                  var place = _step.value;
+                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                  var place = _step2.value;
 
                   _this5.addNearbyMarker(place);
                 }
               } catch (err) {
-                _iterator.e(err);
+                _iterator2.e(err);
               } finally {
-                _iterator.f();
+                _iterator2.f();
               }
             }
           });
@@ -455,19 +498,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             console.log('results: ', results);
 
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              var _iterator2 = _createForOfIteratorHelper(results),
-                  _step2;
+              var _iterator3 = _createForOfIteratorHelper(results),
+                  _step3;
 
               try {
-                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                  var place = _step2.value;
+                for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                  var place = _step3.value;
 
                   _this6.addNearbyMarker(place);
                 }
               } catch (err) {
-                _iterator2.e(err);
+                _iterator3.e(err);
               } finally {
-                _iterator2.f();
+                _iterator3.f();
               }
             }
           });
@@ -490,6 +533,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             position: place.geometry.location,
             icon: icon
           });
+          this.place_markers.push(marker);
           var request = google.maps.places.PlaceSearchRequest = {
             location: this.home.getPosition()
           };
@@ -512,25 +556,48 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "startTracking",
         value: function startTracking() {
-          var _this8 = this;
+          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var _this8 = this;
 
-          this.isTracking = true;
-          this.trackedRoute = [];
+            var toast;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    this.isTracking = true;
+                    this.trackedRoute = [];
 
-          if (this.currentMapTrack) {
-            this.currentMapTrack.setMap(null);
-          }
+                    if (this.currentMapTrack) {
+                      this.currentMapTrack.setMap(null);
+                    }
 
-          this.positionSubscription = this.geolocation.watchPosition().subscribe(function (data) {
-            console.log('new position: ', data);
+                    _context.next = 5;
+                    return this.toastCtrl.create({
+                      duration: 3000,
+                      message: 'Iniciando trackeo...'
+                    });
 
-            _this8.trackedRoute.push({
-              lat: data.coords.latitude,
-              lng: data.coords.longitude
-            });
+                  case 5:
+                    toast = _context.sent;
+                    this.positionSubscription = this.geolocation.watchPosition().subscribe(function (data) {
+                      console.log('new position: ', data);
 
-            _this8.redrawPath(_this8.trackedRoute);
-          });
+                      _this8.trackedRoute.push({
+                        lat: data.coords.latitude,
+                        lng: data.coords.longitude
+                      });
+
+                      _this8.redrawPath(_this8.trackedRoute);
+                    });
+                    toast.present();
+
+                  case 8:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee, this);
+          }));
         }
       }, {
         key: "redrawPath",
@@ -555,8 +622,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "stopTracking",
         value: function stopTracking() {
-          this.isTracking = false;
-          this.positionSubscription.unsubscribe();
+          return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var toast;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    this.isTracking = false;
+                    this.positionSubscription.unsubscribe();
+                    _context2.next = 4;
+                    return this.toastCtrl.create({
+                      duration: 3000,
+                      message: 'Has dejado de tracker...'
+                    });
+
+                  case 4:
+                    toast = _context2.sent;
+                    toast.present();
+
+                  case 6:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2, this);
+          }));
         }
       }, {
         key: "getDistanceFromLatLonInMeters",
@@ -581,10 +671,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "insertar_este_lugar",
         value: function insertar_este_lugar(place) {
+          this.restaurant = place;
+          this.mostrar = false;
           var rest = new _restaurante_model__WEBPACK_IMPORTED_MODULE_8__["Restaurante"]();
           rest.id = place.id;
           rest.ocupacion += 1;
           this.authService.insertar_restaurante(rest);
+        }
+      }, {
+        key: "salirLocal",
+        value: function salirLocal(place) {
+          this.mostrar = true;
+          var rest = new _restaurante_model__WEBPACK_IMPORTED_MODULE_8__["Restaurante"]();
+          rest.id = place.id;
+          rest.ocupacion -= 1;
+          this.authService.borrar_ocupacion(rest);
         }
       }, {
         key: "distance_order",
@@ -599,8 +700,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
           }
 
-          console.log(lugares);
           return lugares;
+        }
+      }, {
+        key: "lista_rest",
+        value: function lista_rest() {
+          var _this9 = this;
+
+          this.locales_places = [];
+
+          var _loop = function _loop(i) {
+            var local = new _restaurante_model__WEBPACK_IMPORTED_MODULE_8__["Restaurante"]();
+            local.id = _this9.places[i].id;
+            local.name = _this9.places[i].name;
+            local.valoracion = _this9.places[i].rating;
+
+            _this9.afDB.database.ref("establecimientos/" + local.id).once('value').then(function (snapshot) {
+              local.ocupacion = snapshot.val() && snapshot.val().ocupacion;
+            });
+
+            _this9.locales_places.push(local);
+          };
+
+          for (var i = 0; i < this.places.length; i++) {
+            _loop(i);
+          }
+
+          console.log(this.locales_places);
         }
       }]);
 
@@ -609,6 +735,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     HomePage.ctorParameters = function () {
       return [{
+        type: angularfire2_database__WEBPACK_IMPORTED_MODULE_9__["AngularFireDatabase"]
+      }, {
         type: _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"]
       }, {
         type: _auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
@@ -616,6 +744,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         type: _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_6__["Geolocation"]
       }, {
         type: _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["Platform"]
+      }, {
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["AlertController"]
+      }, {
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["ToastController"]
       }, {
         type: _ionic_native_in_app_browser_ngx__WEBPACK_IMPORTED_MODULE_7__["InAppBrowser"]
       }];
@@ -634,7 +766,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(
       /*! ./home.page.scss */
       "./src/app/home/home.page.scss"))["default"]]
-    }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"], _auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_6__["Geolocation"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["Platform"], _ionic_native_in_app_browser_ngx__WEBPACK_IMPORTED_MODULE_7__["InAppBrowser"]])], HomePage);
+    }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [angularfire2_database__WEBPACK_IMPORTED_MODULE_9__["AngularFireDatabase"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"], _auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_6__["Geolocation"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["Platform"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["AlertController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["ToastController"], _ionic_native_in_app_browser_ngx__WEBPACK_IMPORTED_MODULE_7__["InAppBrowser"]])], HomePage);
     /***/
   },
 

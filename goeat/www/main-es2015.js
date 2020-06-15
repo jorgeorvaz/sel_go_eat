@@ -666,20 +666,45 @@ let AuthService = class AuthService {
         this.afDB = afDB;
         this.afAuth = afAuth;
     }
-    insertar_mensaje(mensaje) {
-        console.log(mensaje);
-        this.afDB.database.ref('mensajes').push(mensaje);
-    }
     insertar_restaurante(restaurante) {
-        var ref = this.afDB.database.ref("probando");
-        let local = ref.orderByChild("id").equalTo(restaurante.id);
-        console.log(local);
-        if (local != null) {
-            console.log("aqui no se inserta marica");
-        }
-        else {
-            this.afDB.database.ref('probando').push(restaurante);
-        }
+        var ref = this.afDB.database.ref("establecimientos");
+        var rest_id = restaurante.id;
+        return this.afDB.database.ref("establecimientos/" + rest_id).once('value').then(function (snapshot) {
+            var ocup = snapshot.val() && snapshot.val().ocupacion;
+            if (ocup != null) {
+                ocup += 1;
+                const rest_updt = {
+                    ocupacion: ocup
+                };
+                ref.child(restaurante.id).update(rest_updt);
+            }
+            else {
+                const rest_updt = {
+                    ocupacion: restaurante.ocupacion
+                };
+                ref.child(restaurante.id).update(rest_updt);
+            }
+        });
+    }
+    borrar_ocupacion(restaurante) {
+        var ref = this.afDB.database.ref("establecimientos");
+        var rest_id = restaurante.id;
+        return this.afDB.database.ref("establecimientos/" + rest_id).once('value').then(function (snapshot) {
+            var ocup = snapshot.val() && snapshot.val().ocupacion;
+            if (ocup != null) {
+                ocup -= 1;
+                const rest_updt = {
+                    ocupacion: ocup
+                };
+                ref.child(restaurante.id).update(rest_updt);
+            }
+            else {
+                const rest_updt = {
+                    ocupacion: restaurante.ocupacion
+                };
+                ref.child(restaurante.id).update(rest_updt);
+            }
+        });
     }
     crear_usuario(usuario) {
         return new Promise((resolve, reject) => {

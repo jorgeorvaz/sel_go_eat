@@ -27,7 +27,7 @@
     </span>
  
     
-        <ion-button type="submit" class="ion-padding-horizontal" id="boton_registro" expand="block" routerLink="/login">Registrarse</ion-button>
+        <ion-button type="submit" class="ion-padding-horizontal" id="boton_registro" expand="block" routerLink="/login" [disabled]="!ionicForm.valid">Registrarse</ion-button>
       
   </form>
 </ion-content>

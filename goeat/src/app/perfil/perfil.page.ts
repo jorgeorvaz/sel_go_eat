@@ -72,6 +72,7 @@ export class PerfilPage implements OnInit {
       });
       toast.present();
     }).catch(function(error){
+      alert(error.message);
       console.log(error);
     });
   }
