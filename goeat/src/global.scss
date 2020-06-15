@@ -86,7 +86,10 @@ ion-card-title{
 ion-segment{
     --background: #7c9a92;
     --background-hover: #314448;
-    --color-checked: #7c9a92;
+    
+}
+ion-segment-button{
+    --color-checked: black;
 }
 
 ion-footer {
