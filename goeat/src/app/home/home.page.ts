@@ -281,7 +281,7 @@ export class HomePage implements OnInit {
     }
     let toast = await this.toastCtrl.create({
       duration: 3000,
-      message: 'Iniciando trackeo...'});
+      message: 'Iniciando seguimiento...'});
 
     this.positionSubscription = this.geolocation
       .watchPosition()
@@ -319,7 +319,7 @@ export class HomePage implements OnInit {
     this.positionSubscription.unsubscribe();
     let toast = await this.toastCtrl.create({
       duration: 3000,
-      message: 'Has dejado de tracker...'
+      message: 'Fin del seguimiento'
     });
     toast.present();
   }

@@ -53,7 +53,7 @@ export class PerfilPage implements OnInit {
       });
       toast.present();
       user.sendEmailVerification().then(function() {
-        alert('verifica tu email');
+        alert('Verifica tu email');
       }).catch(function(error) {
         console.log(error);
       });
